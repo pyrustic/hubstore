@@ -49,7 +49,7 @@ The repository [hubstore-apps](https://github.com/hubstore-apps) will store a cu
 ## Demo
 <!-- Image -->
 <div align="center">
-    <img src="https://raw.githubusercontent.com/pyrustic/misc/master/media/hubstore_demo_1.gif" alt="Manager" width="650">
+    <img src="https://raw.githubusercontent.com/pyrustic/misc/master/media/hubstore_demo_1.gif" alt="Hubstore First Time" width="650">
     <p align="center">
     Using Hubstore for the first time. You can reproduce it as it.
     </p>
@@ -60,7 +60,7 @@ The repository [hubstore-apps](https://github.com/hubstore-apps) will store a cu
 
 <!-- Image -->
 <div align="center">
-    <img src="https://raw.githubusercontent.com/pyrustic/misc/master/media/hubstore_demo_2.gif" alt="Manager" width="650">
+    <img src="https://raw.githubusercontent.com/pyrustic/misc/master/media/hubstore_demo_2.gif" alt="Hubstore Fictional" width="650">
     <p align="center">
     This is obviously fictional
     </p>
