@@ -3,7 +3,7 @@
     <img src="https://raw.githubusercontent.com/pyrustic/misc/master/media/hubstore_cover.png" alt="Hubstore Cover">
     <br>
     <p align="center">
-    Pyrustic
+    Hubstore - built with Pyrustic
     </p>
 </div>
 
@@ -43,7 +43,7 @@ This is a beta version of `Hubstore`, so it's recommended to be a curious hacker
 
 As an end-user, you just need to know the repository name and owner to download an app via `Hubstore`: {owner}/{repo}. You can also simply paste the url of the project repository.
 
-The repository [hubstore-apps](https://github.com/hubstore-apps) will store a curated list of `Hubstore` compatible apps. Therefore, if you like this project and/or want to make your app available via `Hubstore`, you know what to do :-)
+The repository [hubstore-apps](https://github.com/pyrustic/hubstore-apps) will store a curated list of `Hubstore` compatible apps. Therefore, if you like this project and/or want to make your app available via `Hubstore`, you know what to do :-)
 
 <!-- Demo -->
 ## Demo
@@ -65,16 +65,6 @@ The repository [hubstore-apps](https://github.com/hubstore-apps) will store a cu
     This is obviously fictional
     </p>
 </div>
-
-
-<!-- Features -->
-## Features
-You can export and import the list of your favorite apps. You can auth yourself with your Github personal access token to increase the API rate limit.
-It is easy to generate a personal access token. Read this [article](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token).
-
-You can update your apps, and even rollback to the previous version if the update is buggy.
-
-Play with `Hubstore` to discover more about it.
 
 
 <!-- Philosophy -->
@@ -106,15 +96,25 @@ Play with `Hubstore` to discover more about it.
 </div>
 
 
+<!-- Features -->
+## Features
+You can export and import a list of apps. You can auth yourself with your Github personal access token to increase the API rate limit.
+It is easy to generate a personal access token. Read this [article](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token).
+
+You can update your apps, and even rollback to the previous version if the update is buggy.
+
+Play with `Hubstore` to discover more about it.
+
+
+
 <!-- Installation -->
 ## Installation
 `Hubstore` is available on [PyPI](https://pypi.org/) (the Python Package Index) to simplify the life of Python developers.
 
-If you have never installed a library from PyPI, you must install the pip tool enabling you to download and install a PyPI package. There are several methods which are described on this [page](https://pip.pypa.io/en/latest/installing/).
+If you have never installed a package from PyPI, you must install the pip tool enabling you to download and install a PyPI package. There are several methods which are described on this [page](https://pip.pypa.io/en/latest/installing/).
 
 ```bash
 $ pip install hubstore
-
 $ hubstore
 ```
 
