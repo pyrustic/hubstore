@@ -2,8 +2,9 @@ import sys
 import subprocess
 import os.path
 import operator
-from hubstore import about as hubstore_about
+import pkgutil
 from hubstore.host import core
+from pyrustic.manager import constant
 from pyrustic.jasonix import Jasonix
 from pyrustic.gurl import Gurl
 
@@ -16,6 +17,7 @@ class MainHost:
         self._login = None
         self._gurl = core.get_gurl()
         self._download_gurl = self._get_download_gurl()
+        self._setup()
 
     # === PROPERTIES ===
     @property
@@ -106,6 +108,7 @@ class MainHost:
             release = useful_info
         else:
             success = False
+        assets = self._filter_assets(assets)
         data = {"success": success,
                 "status": status,
                 "release": release,
@@ -115,9 +118,11 @@ class MainHost:
     def download(self, name, url, owner, repo):
         """ Return {"success": bool, "error": object}"""
         # download
-        is_success, error, tempfile, name = core.download(name,
-                                                          url,
-                                                          self._download_gurl)
+        is_success, error, name = core.download(owner,
+                                                repo,
+                                                name,
+                                                url,
+                                                self._download_gurl)
         data = {"success": is_success, "error": error}
         if not is_success:
             return data
@@ -127,8 +132,8 @@ class MainHost:
             data["success"] = is_success
             data["error"] = error
             return data
-        # unpack
-        is_success, error = core.unpack(name, tempfile, owner, repo)
+        # install
+        is_success, error = core.install(owner, repo, name)
         if not is_success:
             data["success"] = is_success
             data["error"] = error
@@ -136,6 +141,7 @@ class MainHost:
         # TODO: implement pip install -? requirement.txt
         # TODO: implement find install script
         # TODO: implement Run install script
+        # TODO: also uninstall script !
         data["success"] = True
         data["None"] = None
         return data
@@ -149,7 +155,7 @@ class MainHost:
                 "owner": owner, "repo": repo}
         path = core.path(owner, repo)
         try:
-            p = subprocess.Popen([sys.executable, "main.py"],
+            p = subprocess.Popen([sys.executable, "-m", repo],
                                  cwd=path,
                                  stderr=subprocess.PIPE)
             self._processes[process_id] = p
@@ -191,7 +197,8 @@ class MainHost:
 
     def rollback(self, owner, repo):
         """ Rollback. Return boolean is_success, error """
-        return core.rollback(owner, repo)
+        is_success, error = core.rollback(owner, repo)
+        return is_success, error
 
     def uninstall(self, owner, repo):
         """
@@ -215,30 +222,42 @@ class MainHost:
                 "version": None,
                 "description": None,
                 "homepage": None}
-        app_json_path = os.path.join(root_dir, "pyrustic_data", "app.json")
-        if not os.path.exists(app_json_path):
+        if root_dir is None:
             return data
-        jasonix = Jasonix(app_json_path)
-        data["version"] = jasonix.data.get("version", "None")
-        data["email"] = jasonix.data.get("email", None)
-        data["description"] = jasonix.data.get("description", None)
-        data["homepage"] = jasonix.data.get("home_page", None)
+        path = None
+        for item in os.listdir(root_dir):
+            print(item)
+            if item.startswith(repo) and item.endswith("dist-info"):
+                path = os.path.join(root_dir, item, "METADATA")
+                break
+        if path is None:
+            return data
+        if not os.path.exists(path):
+            return data
+        metadata = self._metadata(path)
+        data["version"] = metadata["version"]
+        data["email"] = metadata["email"]
+        data["description"] = metadata["description"]
+        data["homepage"] = metadata["homepage"]
         return data
 
     def get_image(self, owner, repo):
         """ Return None or path"""
         root_dir = core.path(owner, repo)
-        hubstore_json_path = os.path.join(root_dir, "pyrustic_data", "hubstore.json")
-        path = None
+        hubstore_json_path = os.path.join(root_dir, repo,
+                                          "pyrustic_data", "hubstore.json")
+        data = None
         if os.path.exists(hubstore_json_path):
             jasonix = Jasonix(hubstore_json_path)
             path = jasonix.data.get("showcase_small_img", None)
             if path:
                 path = path.replace("./", "", 1) if path.startswith("./") else path
-                path = os.path.join(root_dir, path)
-        if not path or not os.path.exists(path):
-            path = self._get_default_image()
-        return path
+                path = os.path.join(root_dir, repo, path)
+                with open(path, "rb") as file:
+                    data = file.read()
+        if not data:
+            data = self._get_default_image()
+        return data
 
     def stop_process(self, process_id):
         if process_id not in self._processes:
@@ -249,14 +268,34 @@ class MainHost:
             pass
         del self._processes[process_id]
 
+    def _setup(self):
+        shared_folder = os.path.join(constant.PYRUSTIC_DATA_FOLDER,
+                                     "hubstore")
+        shared_json_path = os.path.join(shared_folder,
+                                        "hubstore_shared_data.json")
+        if not os.path.exists(shared_folder):
+            os.makedirs(shared_folder)
+        if not os.path.exists(shared_json_path):
+            resource = "misc/default_json/default_shared_data.json"
+            default_json = pkgutil.get_data("hubstore",
+                                            resource)
+            with open(shared_json_path, "wb") as file:
+                file.write(default_json)
+        self._jasonix = Jasonix(shared_json_path)
 
     # === PRIVATE ===
+    def _filter_assets(self, assets):
+        cache = []
+        for asset in assets:
+            _, ext = os.path.splitext(asset["name"])
+            if ext == ".whl":
+                cache.append(asset)
+        return cache
+
     def _get_default_image(self):
-        root_dir = hubstore_about.ROOT_DIR
-        path = os.path.join(root_dir, "misc", "default.png")
-        if not os.path.exists(path):
-            path = None
-        return path
+        resource = "misc/default.png"
+        data = pkgutil.get_data("hubstore", resource)
+        return data
 
     def _get_download_gurl(self):
         """
@@ -266,3 +305,47 @@ class MainHost:
                    "User-Agent": "Pyrustic"}
         gurl = Gurl(headers=headers)
         return gurl
+
+    def _metadata(self, path):
+        data = {"email": None, "version": None, "description": None,
+                "homepage": None}
+        raw = self._dirty_metadata_parser(path)
+        mapping = {"Version": "version",
+                   "Author-email": "email",
+                   "Maintainer-email": "email",
+                   "Summary": "description",
+                   "Home-page": "homepage"}
+        for item in raw:
+            key, value = item
+            if key in mapping:
+                data[mapping[key]] = value
+        return data
+
+
+    def _dirty_metadata_parser(self, path):
+        data = []
+        with open(path, "r") as file:
+            for line in file.readlines():
+                key = ""
+                value = ""
+                parsing_key = True
+                parsing_value = False
+                cache = ""
+                if line == "\n":
+                    break
+                for char in line:
+                    if parsing_key and char == ":":
+                        parsing_key = False
+                        key = cache
+                        cache = ""
+                        continue
+                    if not parsing_key and not parsing_value:
+                        parsing_value = True
+                        continue
+                    if parsing_value and char == "\n":
+                        value = cache
+                        data.append((key, value))
+                    cache += char
+        return data
+
+

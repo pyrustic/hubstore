@@ -4,10 +4,10 @@ import uuid
 import shutil
 import subprocess
 import sys
+import pkgutil
 from hubstore.host import constants
 from pyrustic.jasonix import Jasonix
 from pyrustic.gurl import Gurl
-from tempfile import TemporaryDirectory
 
 
 def should_init_hubstore():
@@ -152,16 +152,13 @@ def useful_info(data):
     return info
 
 
-def download(name, url, gurl):
+def download(owner, repo, name, url, gurl):
     """
     Download the resource (url) with gurl object
     Return a boolean is_success, error, and tempfile
     """
     is_success = True
     error = None
-    tempfile = TemporaryDirectory()
-    cache_path = tempfile.name
-    cached_zip = os.path.join(cache_path, name)
     response = gurl.request(url)
     data = response.body
     if response.code == 304:
@@ -169,15 +166,17 @@ def download(name, url, gurl):
             data = response.cached_response.body
     if data is None:
         return None, "The server returned an empty body", None, name
+    dist_folder = os.path.join(_hubstore_apps_folder(), "dist", owner, repo)
+    if not os.path.exists(dist_folder):
+        os.makedirs(dist_folder)
+    path = os.path.join(dist_folder, name)
     try:
-        with open(cached_zip, "wb") as file:
+        with open(path, "wb") as file:
             file.write(data)
     except Exception as e:
         error = e
         is_success = False
-        tempfile.cleanup()
-        tempfile = None
-    return is_success, error, tempfile, name
+    return is_success, error, name
 
 
 def backup(owner, repo):
@@ -189,15 +188,17 @@ def backup(owner, repo):
     error = None
     hubstore_apps = _hubstore_apps_folder()
     hubstore_apps_owner = os.path.join(hubstore_apps, "apps", owner)
-    hubstore_apps_repo = os.path.join(hubstore_apps_owner, repo)
+    hubstore_apps_repo = os.path.join(hubstore_apps_owner,
+                                      "{}-habitat".format(repo))
     if not os.path.exists(hubstore_apps_repo):
         return False, None
     backup_path = os.path.join(hubstore_apps, "backup")
     backup_owner_path = os.path.join(backup_path, owner)
-    backup_repo_path = os.path.join(backup_owner_path, repo)
+    backup_repo_path = os.path.join(backup_owner_path,
+                                    repo)
     if not os.path.exists(backup_owner_path):
         try:
-            os.mkdir(backup_owner_path)
+            os.makedirs(backup_owner_path)
         except Exception as e:
             return False, e
     elif os.path.exists(backup_repo_path):
@@ -222,24 +223,28 @@ def backup(owner, repo):
     return is_success, error
 
 
-def unpack(name, tempfile, owner, repo):
+def install(owner, repo, name):
     """
     Unpack the zip file cached in tempfile.name
     Return bool is_success, error
     """
     hubstore_apps = _hubstore_apps_folder()
-    src = os.path.join(tempfile.name, name)
-    dest = os.path.join(hubstore_apps, "apps", owner)
+    src = os.path.join(hubstore_apps, "dist", owner, repo, name)
+    dest = os.path.join(hubstore_apps, "apps", owner,
+                        "{}-habitat".format(repo))
     try:
-        shutil.unpack_archive(src, dest)
+        p = subprocess.Popen([sys.executable, "-m", "pip",
+                              "install",
+                              "--target={}".format(dest), src],
+                             stderr=subprocess.PIPE,
+                             stdout=subprocess.PIPE)
+        out, err = p.communicate()
+        if err:
+            return False, err
     except Exception as e:
         return False, e
-    finally:
-        tempfile.cleanup()
     # register app in apps.json
-    cache = constants.DEFAULT_HUBSTORE_APPS_LIST_FILE
-    jasonix = Jasonix(os.path.join(hubstore_apps, "apps.json"),
-                      default=cache)
+    jasonix = Jasonix(os.path.join(hubstore_apps, "apps.json"))
     if owner in jasonix.data:
         if repo not in jasonix.data[owner]:
             jasonix.data[owner].append(repo)
@@ -306,8 +311,7 @@ def get_list():
     apps_json = os.path.join(hubstore_apps, "apps.json")
     data = None
     try:
-        jasonix = Jasonix(apps_json,
-                          default=constants.DEFAULT_HUBSTORE_APPS_LIST_FILE)
+        jasonix = Jasonix(apps_json)
         data = jasonix.data
     except Exception as e:
         return False, e, data
@@ -323,7 +327,7 @@ def uninstall(owner, repo):
     error = None
     hubstore_apps = _hubstore_apps_folder()
     apps_data = os.path.join(hubstore_apps, "apps.json")
-    jasonix = Jasonix(apps_data, default=constants.DEFAULT_HUBSTORE_APPS_LIST_FILE)
+    jasonix = Jasonix(apps_data)
     root_dir = os.path.join(hubstore_apps, "apps", owner, repo)
     try:
         repos = jasonix.data[owner]
@@ -348,10 +352,11 @@ def uninstall(owner, repo):
 
 def run(owner, repo):
     hubstore_apps = _hubstore_apps_folder()
-    root_dir = os.path.join(hubstore_apps, "apps", owner, repo)
+    root_dir = os.path.join(hubstore_apps, "apps", owner,
+                            "{}-habitat".format(repo))
     if os.path.exists(root_dir):
         try:
-            p = subprocess.Popen([sys.executable, "."],
+            p = subprocess.Popen([sys.executable, "-m", repo],
                                  cwd=root_dir)
             p.communicate()
         except Exception as e:
@@ -372,7 +377,8 @@ def rollback(owner, repo):
     backup_repo_path = os.path.join(backup_owner_path, repo)
     hubstore_apps_apps_path = os.path.join(hubstore_apps, "apps",)
     hubstore_apps_owner_path = os.path.join(hubstore_apps_apps_path, owner)
-    hubstore_apps_repo = os.path.join(hubstore_apps_owner_path, repo)
+    hubstore_apps_repo = os.path.join(hubstore_apps_owner_path,
+                                      "{}-habitat".format(repo))
     if not os.path.exists(backup_repo_path) and os.path.exists(hubstore_apps_repo):
         return False, "There aren't any backup for this app"
     elif not os.path.exists(hubstore_apps_repo):
@@ -407,7 +413,8 @@ def path(owner, repo):
     """
     hubstore_apps = _hubstore_apps_folder()
     hubstore_apps_owner = os.path.join(hubstore_apps, "apps", owner)
-    hubstore_apps_repo = os.path.join(hubstore_apps_owner, repo)
+    hubstore_apps_repo = os.path.join(hubstore_apps_owner,
+                                      "{}-habitat".format(repo))
     if not os.path.exists(hubstore_apps_repo):
         hubstore_apps_repo = None
     return hubstore_apps_repo
@@ -479,16 +486,20 @@ def _create_hubstore_apps_folder(parent_path):
     """
     hubstore_apps = os.path.join(parent_path, "hubstore-apps")
     apps_dir = os.path.join(hubstore_apps, "apps")
-    backup_dir = os.path.join(hubstore_apps, "backup")
+    backup_dir = os.path.join(hubstore_apps, "dist")
     for item in (hubstore_apps, apps_dir, backup_dir):
         if not os.path.exists(item):
             try:
                 os.mkdir(item)
             except Exception as e:
                 return e, hubstore_apps
+    # Add apps.json in the folder hub
     try:
-        Jasonix(os.path.join(hubstore_apps, "apps.json"),
-                constants.DEFAULT_HUBSTORE_APPS_LIST_FILE)
+        resource = "misc/default_json/default_apps_list_data.json"
+        data = pkgutil.get_data("hubstore", resource)
+        cache = os.path.join(hubstore_apps, "apps.json")
+        with open(cache, "wb") as file:
+            file.write(data)
     except Exception as e:
         return e, hubstore_apps
     return None, hubstore_apps
@@ -499,7 +510,6 @@ def _register_hubstore_in_pyrustic_data(hubstore_apps):
     PYRUSTIC_DATA = constants.PYRUSTIC_DATA
     HUBSTORE_SHARED_FOLDER = constants.HUBSTORE_SHARED_FOLDER
     HUBSTORE_SHARED_DATA_FILE = constants.HUBSTORE_SHARED_DATA_FILE
-    DEFAULT_HUBSTORE_SHARED_DATA_FILE = constants.DEFAULT_HUBSTORE_SHARED_DATA_FILE
     for item in (PYRUSTIC_DATA, HUBSTORE_SHARED_FOLDER):
         if not os.path.exists(item):
             try:
@@ -508,8 +518,11 @@ def _register_hubstore_in_pyrustic_data(hubstore_apps):
                 return e
     # JSON
     try:
-        jasonix = Jasonix(HUBSTORE_SHARED_DATA_FILE,
-                          default=DEFAULT_HUBSTORE_SHARED_DATA_FILE)
+        resource = "misc/default_json/default_shared_data.json"
+        data = pkgutil.get_data("hubstore", resource)
+        with open(HUBSTORE_SHARED_DATA_FILE, "wb") as file:
+            file.write(data)
+        jasonix = Jasonix(HUBSTORE_SHARED_DATA_FILE)
         jasonix.data["hubstore-apps"] = hubstore_apps
         jasonix.save()
     except Exception as e:

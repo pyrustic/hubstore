@@ -4,7 +4,7 @@ from pyrustic.viewable import Viewable
 import webbrowser
 
 
-ABOUT_TEXT = """Download, store, and run Python desktop apps with Hubstore.
+ABOUT_TEXT = """Download, install, manage, and run Python desktop apps with Hubstore.
 Hubstore is available on PyPI and is built with Pyrustic.
 
 Hubstore web page:
@@ -18,7 +18,7 @@ To install Hubstore:
 pip install hubstore
 
 To upgrade Hubstore:
-pip install --user --upgrade hubstore
+pip install --upgrade hubstore
 
 
 """

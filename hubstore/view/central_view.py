@@ -156,10 +156,10 @@ class CentralView(Viewable):
 
     def _set_image(self, canvas, owner, repo):
         self.body.update_idletasks()
-        path = self._host.get_image(owner, repo)
-        if not path or not os.path.exists(path):
+        data = self._host.get_image(owner, repo)
+        if not data:
             return
-        image = tk.PhotoImage(file=path)
+        image = tk.PhotoImage(data=data)
         #image.zoom(25)
         #image = image.subsample(3, 3)
         self._image_cache["{}/{}".format(owner, repo)] = image

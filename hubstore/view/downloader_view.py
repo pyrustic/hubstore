@@ -150,7 +150,7 @@ class DownloaderView(Viewable):
             # label size
             entry_size = tk.Label(asset_frame,
                                   text=self._stringify_size(asset["size"]))
-            entry_size.pack(side=tk.RIGHT, padx=2)
+            entry_size.pack(side=tk.LEFT, padx=3)
         return frame
 
     def _gen_footer_frame(self, master):
@@ -166,6 +166,11 @@ class DownloaderView(Viewable):
         return frame
 
     def _on_click_download(self):
+        if not self._asset_data:
+            toast = Toast(self._body,
+                          message="No asset to download")
+            toast.build()
+            return
         choice = self._intvar.get()
         name = self._asset_data[choice]["name"]
         url = self._asset_data[choice]["url"]
