@@ -1,6 +1,6 @@
 import tkinter as tk
 import os.path
-from pyrustic.viewable import Viewable
+from pyrustic.view import View
 from pyrustic.widget.scrollbox import Scrollbox
 from pyrustic.widget.toast import Toast
 from hubstore.view.app_info_view import AppInfoView
@@ -10,8 +10,9 @@ from hubstore.misc import my_theme
 MAX_TILES_BY_ROW = 4
 
 
-class CentralView(Viewable):
+class CentralView(View):
     def __init__(self, parent_view):
+        super().__init__()
         self._parent_view = parent_view
         self._master = self._parent_view.body
         self._host = self._parent_view.main_host
@@ -43,7 +44,7 @@ class CentralView(Viewable):
     def _on_build(self):
         self._body = tk.Frame(self._master)
         self._scrollbox = Scrollbox(self._body, orient="v", box_sticky="nswe")
-        self._scrollbox.build_pack(expand=1, fill=tk.BOTH)
+        self._scrollbox.pack(expand=1, fill=tk.BOTH)
 
     def _on_display(self):
         pass
@@ -54,8 +55,7 @@ class CentralView(Viewable):
     def _load_data(self):
         is_success, error, data = self._host.get_list()
         if not is_success:
-            toast = Toast(self._body, message="Failed to load the list of apps")
-            toast.build()
+            Toast(self._body, message="Failed to load the list of apps")
             return
         self._scrollbox.clear()
         self._frame_row_cache = None
@@ -152,7 +152,7 @@ class CentralView(Viewable):
         args = (owner, repo,
                 footer_view.add_item)
         consumer = footer_view.exited_app
-        self._threadom.run(target, args=args, consumer=consumer)
+        self._threadom.run(target, target_args=args, consumer=consumer)
 
     def _set_image(self, canvas, owner, repo):
         self.body.update_idletasks()

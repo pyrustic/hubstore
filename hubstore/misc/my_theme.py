@@ -174,7 +174,7 @@ def _get_text_description_app_info_style():
     style = text.get_style()
     style.font = constant.FONT_FAV_NORMAL
     style.readonlyBackground = "#EFEFEF"
-    style.readonlyBackground = "#B4C7EF"
+    style.readonlyBackground = "#B4C7EF"  # TODO: remove this nan ?
     style.background = constant.COLOR_BLACK
     style.background = "#101818"
     style.highlightThickness = 0

@@ -132,6 +132,12 @@ $ pip install hubstore
 $ hubstore
 ```
 
+To upgrade Hubstore:
+
+```bash
+$ pip install hubstore --upgrade --upgrade-strategy eager
+```
+
 I recommend you to try the demo: just type `pyrustic/demo` in `Hubstore`. You can go to check the demo code source, it has a conventional Python project structure, there are not any voodoo magic. You can alter the __main__.py file and put there a dumb Tkinter calc code, build the project with your favorite tool or with `Pyrustic Manager`, publish it on Github, then update the previous installed version via `Hubstore`. By the way, `Hubstore` doesn't mess with sys.path or any environment variable. It is fully cross platform, and it doesn't use any virtual environment tool, just the good old vanilla Python ;)
 
 `Hubstore` simply take profit of the elegance of Python itself to avoid platform-specific scripts/stuff/voodoo. 

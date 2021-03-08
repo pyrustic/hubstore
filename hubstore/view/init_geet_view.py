@@ -1,13 +1,14 @@
 import os.path
 import tkinter as tk
 from tkinter import filedialog
-from pyrustic.viewable import Viewable
+from pyrustic.view import View
 from pyrustic.widget.toast import Toast
 from pyrustic import tkmisc
 
 
-class InitGeetView(Viewable):
+class InitGeetView(View):
     def __init__(self, parent_view):
+        super().__init__()
         self._parent_view = parent_view
         self._master = parent_view.body
         self._host = parent_view.main_host
@@ -24,7 +25,7 @@ class InitGeetView(Viewable):
         if error_code == 0:
             self._init_success = True
             toast = Toast(self._body, message=message)
-            toast.build_wait()
+            toast.wait_window()
             self._central_view.load_data()
             self.destroy()
             return
@@ -32,7 +33,7 @@ class InitGeetView(Viewable):
                  2: "Failed to register Geet in $HOME/PyrusticData"}
         message = cache[error_code]
         toast = Toast(self._body, message=message)
-        toast.build_wait()
+        toast.wait_window()
 
     def _on_build(self):
         self._body = tk.Toplevel(self._master, name="init_geet_view")
@@ -106,7 +107,7 @@ class InitGeetView(Viewable):
             target = self._host.init_hubstore
             args = (path, )
             consumer = self.notify_init_outcome
-            self._threadom.run(target, args=args, consumer=consumer)
+            self._threadom.run(target, target_args=args, consumer=consumer)
             return
         message = ("Please set a path !" if path == ""
                    else "This path doesn't exist !")

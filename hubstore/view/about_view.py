@@ -1,6 +1,6 @@
 import tkinter as tk
 from pyrustic import tkmisc
-from pyrustic.viewable import Viewable
+from pyrustic.view import View
 import webbrowser
 
 
@@ -18,7 +18,7 @@ To install Hubstore:
 pip install hubstore
 
 To upgrade Hubstore:
-pip install --upgrade hubstore
+pip install hubstore --upgrade --upgrade-strategy eager
 
 
 """
@@ -26,8 +26,9 @@ HUBSTORE_URL = "https://github.com/pyrustic/hubstore#readme"
 PYRUSTIC_URL = "https://github.com/pyrustic/pyrustic#readme"
 
 
-class AboutView(Viewable):
+class AboutView(View):
     def __init__(self, parent_view):
+        super().__init__()
         self._parent_view = parent_view
         self._master = self._parent_view.body
         self._body = None

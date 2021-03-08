@@ -1,13 +1,14 @@
-from pyrustic.viewable import Viewable
+from pyrustic.view import View
 from pyrustic.widget.scrollbox import Scrollbox
 from pyrustic.widget.toast import Toast
 from pyrustic import pymisc
 import tkinter as tk
 
 
-class DownloaderView(Viewable):
+class DownloaderView(View):
     def __init__(self, parent_view, owner, repo,
                  release_data, asset_data):
+        super().__init__()
         self._parent_view = parent_view
         self._owner = owner
         self._repo = repo
@@ -135,7 +136,7 @@ class DownloaderView(Viewable):
         label_title.pack(fill=tk.X, padx=2)
         # scrollbox
         scrollbox = Scrollbox(frame)
-        scrollbox.build_pack(expand=1, fill=tk.BOTH)
+        scrollbox.pack(expand=1, fill=tk.BOTH)
         # radio buttons
         for i, asset in enumerate(asset_data):
             asset_frame = tk.Frame(scrollbox.box)
@@ -167,9 +168,8 @@ class DownloaderView(Viewable):
 
     def _on_click_download(self):
         if not self._asset_data:
-            toast = Toast(self._body,
+            Toast(self._body,
                           message="No asset to download")
-            toast.build()
             return
         choice = self._intvar.get()
         name = self._asset_data[choice]["name"]

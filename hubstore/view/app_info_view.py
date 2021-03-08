@@ -1,13 +1,14 @@
 import webbrowser
 import tkinter as tk
-from pyrustic.viewable import Viewable
+from pyrustic.view import View
 from pyrustic.widget.toast import Toast
 from pyrustic.widget.confirm import Confirm
 from hubstore.view.downloader_view import DownloaderView
 
 
-class AppInfoView(Viewable):
+class AppInfoView(View):
     def __init__(self, parent_view, footer_view, owner, repo):
+        super().__init__()
         self._parent_view = parent_view
         self._footer_view = footer_view
         self._owner = owner
@@ -34,8 +35,7 @@ class AppInfoView(Viewable):
         status = result["status"]
         if not success:
             message = "Failed to fetch data\n{} {}".format(status[0], status[1])
-            toast = Toast(self._body, message=message)
-            toast.build()
+            Toast(self._body, message=message)
         else:
             self.destroy()
             header_view = self._parent_view.header_view
@@ -51,7 +51,7 @@ class AppInfoView(Viewable):
         if not is_success:
             message = "Failed to rollback"
         toast = Toast(self._body, message=message)
-        toast.build_wait()
+        toast.wait_window()
         if is_success:
             self._parent_view.load_data()
             self.destroy()
@@ -62,7 +62,7 @@ class AppInfoView(Viewable):
             message = "Successfully uninstalled"
         else:
             message = "Failed to uninstall the app"
-        Toast(self._body, message=message).build_wait()
+        Toast(self._body, message=message).wait_window()
         if is_success:
             self._parent_view.load_data()
             self.destroy()
@@ -229,7 +229,6 @@ class AppInfoView(Viewable):
         data = self._host.get_info(self._owner, self._repo)
         if data is None:
             toast = Toast(self._body, message="Failed to load app information")
-            toast.build()
             self.destroy()
             return
         #
@@ -255,13 +254,12 @@ class AppInfoView(Viewable):
         args = (self._owner, self._repo,
                 self._footer_view.add_item)
         consumer = self._footer_view.exited_app
-        self._threadom.run(target, args=args, consumer=consumer)
+        self._threadom.run(target, target_args=args, consumer=consumer)
 
     def _on_click_update(self):
         self._toast_cache = Toast(self._body,
                                   message="Fetching...",
                                   duration=None)
-        self._toast_cache.build()
         owner = self._owner
         repo = self._repo
         host = self._host.search_online
@@ -273,7 +271,7 @@ class AppInfoView(Viewable):
                     self.notify_update(owner, repo, result))
         self._threadom.run(host,
                            consumer=consumer,
-                           args=args,
+                           target_args=args,
                            sync=True)
 
     def _on_click_uninstall(self):
@@ -283,13 +281,13 @@ class AppInfoView(Viewable):
         confirm = Confirm(self._body,
                           header=header,
                           message=message)
-        confirm.build_wait()
+        confirm.wait_window()
         if not confirm.ok:
             return
         target = self._host.uninstall
         args = (self._owner, self._repo)
         consumer = self.notify_uninstall
-        self._threadom.run(target, args=args, consumer=consumer)
+        self._threadom.run(target, target_args=args, consumer=consumer)
 
     def _on_click_rollback(self):
         header = "Confirm"
@@ -298,13 +296,13 @@ class AppInfoView(Viewable):
         confirm = Confirm(self._body,
                           header=header,
                           message=message)
-        confirm.build_wait()
+        confirm.wait_window()
         if not confirm.ok:
             return
         target = self._host.rollback
         args = (self._owner, self._repo)
         consumer = self.notify_rollback
-        self._threadom.run(target, args=args, consumer=consumer)
+        self._threadom.run(target, target_args=args, consumer=consumer)
 
     def _on_click_homepage(self):
         homepage = self._strvar_homepage.get()
@@ -313,4 +311,4 @@ class AppInfoView(Viewable):
                                                          self._repo)
         target = webbrowser.open
         kwargs = {"url": homepage, "new": 2}
-        self._threadom.run(target, kwargs=kwargs)
+        self._threadom.run(target, target_kwargs=kwargs)

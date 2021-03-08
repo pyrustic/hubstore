@@ -1,11 +1,12 @@
 import tkinter as tk
-from pyrustic.viewable import Viewable
+from pyrustic.view import View
 from pyrustic.widget.toast import Toast
 
 
-class AuthView(Viewable):
+class AuthView(View):
 
     def __init__(self, parent_view):
+        super().__init__()
         self._parent_view = parent_view
         self._master = self._parent_view.body
         self._host = self._parent_view.host
@@ -23,14 +24,13 @@ class AuthView(Viewable):
         if status_code not in (200, 304):
             message = "Failed to authenticate\n{} {}".format(status_code,
                                                              status_text)
-            toast = Toast(self._body, message=message)
-            toast.build()
+            Toast(self._body, message=message)
             self._parent_view.notify_auth(False)
             return
         self.destroy()
         message = "Welcome {} !".format(login)
         toast = Toast(self._parent_view.body, message=message)
-        toast.build_wait()
+        toast.wait_window()
         self._parent_view.notify_auth(True)
 
     def _on_build(self):
@@ -91,16 +91,15 @@ class AuthView(Viewable):
         target = self._host.auth
         args = (token, )
         consumer = self.notify_auth
-        self._threadom.run(target, args=args,
+        self._threadom.run(target, target_args=args,
                            consumer=consumer)
         self._toast_cache = Toast(self._body,
                                   message="Authenticating...",
                                   duration=None)
-        self._toast_cache.build()
 
     def _on_click_disconnect(self):
         self._host.unauth()
-        Toast(self._body, message="Disconnected").build_wait()
+        Toast(self._body, message="Disconnected").wait_window()
         self._parent_view.notify_auth(False)
         self.destroy()
 

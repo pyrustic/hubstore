@@ -1,0 +1,7 @@
+hubway==0.0.3
+importlib-metadata==3.4.0
+jupitest==0.0.1
+# Editable install with no version control (pyrustic==0.0.9)
+-e /home/alex/PycharmProjects/pyrustic
+rustiql==0.0.2
+zipp==3.4.0

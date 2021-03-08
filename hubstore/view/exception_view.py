@@ -1,9 +1,10 @@
 import tkinter as tk
-from pyrustic.viewable import Viewable
+from pyrustic.view import View
 
 
-class ExceptionView(Viewable):
+class ExceptionView(View):
     def __init__(self, parent_view, data):
+        super().__init__()
         self._parent_view = parent_view
         self._data = data
         self._master = parent_view.body

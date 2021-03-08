@@ -1,12 +1,13 @@
 import tkinter as tk
-from pyrustic.viewable import Viewable, BUILT, DISPLAYED
+from pyrustic.view import View, BUILT, DISPLAYED
 from pyrustic.widget.scrollbox import Scrollbox
 from hubstore.view.app_info_view import AppInfoView
 from hubstore.view.exception_view import ExceptionView
 
 
-class FooterView(Viewable):
+class FooterView(View):
     def __init__(self, parent_view):
+        super().__init__()
         self._parent_view = parent_view
         self._master = self._parent_view.body
         self._host = self._parent_view.main_host
@@ -43,7 +44,7 @@ class FooterView(Viewable):
     def _on_build(self):
         self._body = tk.Frame(self._master)
         self._scrollbox = Scrollbox(self._body, orient="x", resizable_box=False)
-        self._scrollbox.build_pack(fill=tk.X)
+        self._scrollbox.pack(fill=tk.X)
 
     def _on_display(self):
         pass

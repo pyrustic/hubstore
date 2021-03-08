@@ -226,7 +226,6 @@ class MainHost:
             return data
         path = None
         for item in os.listdir(root_dir):
-            print(item)
             if item.startswith(repo) and item.endswith("dist-info"):
                 path = os.path.join(root_dir, item, "METADATA")
                 break

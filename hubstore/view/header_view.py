@@ -3,7 +3,7 @@ import os.path
 import tkinter as tk
 from pyrustic import pymisc
 from tkinter import filedialog
-from pyrustic.viewable import Viewable
+from pyrustic.view import View
 from pyrustic.widget.toast import Toast
 from hubstore.view.downloader_view import DownloaderView
 from hubstore.view.about_view import AboutView
@@ -13,9 +13,10 @@ from hubstore.view.import_list_view import ImportListView
 from hubstore.misc import my_theme
 
 
-class HeaderView(Viewable):
+class HeaderView(View):
 
     def __init__(self, parent_view):
+        super().__init__()
         self._parent_view = parent_view
         self._threadom = self._parent_view.threadom
         self._master = self._parent_view.body
@@ -57,8 +58,7 @@ class HeaderView(Viewable):
         status = result["status"]
         if not success:
             message = "Failed to fetch data\n{} {}".format(status[0], status[1])
-            toast = Toast(self._body, message=message)
-            toast.build()
+            Toast(self._body, message=message)
         else:
             downloader_view = DownloaderView(self,
                                              owner, repo,
@@ -74,7 +74,7 @@ class HeaderView(Viewable):
         message = "Failed to download\n{}".format(result["error"])
         if result["success"]:
             message = "Successfully downloaded"
-        Toast(self._body, message=message).build()
+        Toast(self._body, message=message)
         if success:
             self._parent_view.central_view.load_data()
 
@@ -94,13 +94,12 @@ class HeaderView(Viewable):
         else:
             duration = 1000
             message = "Failed to load data\n{}".format(status_text)
-        toast = Toast(self._body, message=message, duration=duration)
-        toast.build()
+        Toast(self._body, message=message, duration=duration)
 
     def notify_list(self, result):
         is_success, error, data = result
         if not is_success:
-            Toast(self._body, message="Failed to load data").build_wait()
+            Toast(self._body, message="Failed to load data").wait_window()
             return
         cache = os.path.expanduser("~")
         filename = filedialog.asksaveasfilename(initialdir=cache,
@@ -111,8 +110,7 @@ class HeaderView(Viewable):
             os.unlink(filename)
         self._save_apps_list_in_file(data, filename)
         message = "Successfully exported !\n{}".format(filename)
-        toast = Toast(self.body, message=message)
-        toast.build()
+        Toast(self.body, message=message)
 
     def submit_url_to_download(self, owner, repo, name, url):
         if self._toast_cache:
@@ -120,7 +118,6 @@ class HeaderView(Viewable):
         self._toast_cache = Toast(self._body,
                                   message="Processing...",
                                   duration=None)
-        self._toast_cache.build()
         host_func = self._host.download
         args = (name, url, owner, repo)
         consumer = (lambda result,
@@ -128,7 +125,7 @@ class HeaderView(Viewable):
                           owner=owner,
                           repo=repo: self.notify_download(owner, repo, result))
         self._threadom.run(host_func,
-                             args=args,
+                             target_args=args,
                              consumer=consumer)
 
     def notify_auth(self, success):
@@ -214,7 +211,6 @@ class HeaderView(Viewable):
         #if self._host.login is None:
         #    message = "Please authenticate yourself first"
         #    toast = Toast(self.body, message=message)
-        #    toast.build()
         #    return
         cache = os.path.expanduser("~")
         filename = filedialog.askopenfilename(initialdir=cache,
@@ -241,7 +237,6 @@ class HeaderView(Viewable):
         self._toast_cache = Toast(self._body,
                                   message="Rate Limit: Loading...",
                                   duration=None)
-        self._toast_cache.build()
 
     def _on_click_auth(self):
         auth_view = AuthView(self)
@@ -261,14 +256,12 @@ class HeaderView(Viewable):
         if owner is None or repo is None:
             owner = repo = None
             toast = Toast(self._body, message="Incorrect search")
-            toast.build()
         return owner, repo
 
     def _request_an_offline_search(self, owner, repo):
         self._toast_cache = Toast(self._body,
                                   message="Searching...",
                                   duration=None)
-        self._toast_cache.build()
         host = self._host.search_offline
         args = (owner, repo)
         consumer = (lambda result,
@@ -277,15 +270,14 @@ class HeaderView(Viewable):
                            repo=repo:
                     self.notify_offline_search_result(owner, repo, result))
         self._threadom.run(host,
+                             target_args=args,
                              consumer=consumer,
-                             args=args,
                              sync=True)
 
     def _request_an_online_search(self, owner, repo):
         self._toast_cache = Toast(self._body,
                                   message="Fetching data...",
                                   duration=None)
-        self._toast_cache.build()
         host = self._host.search_online
         args = (owner, repo)
         consumer = (lambda result,
@@ -294,8 +286,8 @@ class HeaderView(Viewable):
                            repo=repo:
                     self.notify_online_search_result(owner, repo, result))
         self._threadom.run(host,
+                             target_args=args,
                              consumer=consumer,
-                             args=args,
                              sync=True)
 
     def _open_app_info(self, owner, repo):

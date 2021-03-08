@@ -1,11 +1,12 @@
 import tkinter as tk
-from pyrustic.viewable import Viewable
+from pyrustic.view import View
 from pyrustic.widget.toast import Toast
 from pyrustic.widget.scrollbox import Scrollbox
 
 
-class ImportListView(Viewable):
+class ImportListView(View):
     def __init__(self, parent_view, header_view, data):
+        super().__init__()
         self._parent_view = parent_view
         self._header_view = header_view
         self._data = data
@@ -32,7 +33,7 @@ class ImportListView(Viewable):
         label.grid(row=0, column=0, sticky="we",
                    padx=(2, 50), pady=(5, 10))
         scrollbox = Scrollbox(self._body)
-        scrollbox.build_grid(row=1, column=0,
+        scrollbox.grid(row=1, column=0,
                              sticky="nswe")
         for i, owner_repo in enumerate(self._data):
             radiobutton = tk.Radiobutton(scrollbox.box,
@@ -70,7 +71,6 @@ class ImportListView(Viewable):
         self._toast_cache = Toast(self._body,
                                   message="Fetching...",
                                   duration=None)
-        self._toast_cache.build()
         host = self._host.search_online
         args = (owner, repo)
         consumer = (lambda result,
@@ -79,6 +79,6 @@ class ImportListView(Viewable):
                            repo=repo:
                     self.notify_online_search_result(owner, repo, result))
         self._threadom.run(host,
+                           target_args=args,
                            consumer=consumer,
-                           args=args,
                            sync=True)
