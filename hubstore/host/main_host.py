@@ -154,8 +154,9 @@ class MainHost:
                 "id": process_id,
                 "owner": owner, "repo": repo}
         path = core.path(owner, repo)
+        app_pkg = core.get_app_pkg(owner, repo)
         try:
-            p = subprocess.Popen([sys.executable, "-m", repo],
+            p = subprocess.Popen([sys.executable, "-m", app_pkg],
                                  cwd=path,
                                  stderr=subprocess.PIPE)
             self._processes[process_id] = p
@@ -192,7 +193,7 @@ class MainHost:
         cache = []
         for key, val in data.items():
             for item in val:
-                cache.append((key, item))
+                cache.append((key, item[0]))
         return True, None, sorted(cache, key=operator.itemgetter(1))
 
     def rollback(self, owner, repo):
@@ -243,7 +244,8 @@ class MainHost:
     def get_image(self, owner, repo):
         """ Return None or path"""
         root_dir = core.path(owner, repo)
-        hubstore_json_path = os.path.join(root_dir, repo,
+        app_pkg = core.get_app_pkg(owner, repo)
+        hubstore_json_path = os.path.join(root_dir, app_pkg,
                                           "pyrustic_data", "hubstore.json")
         data = None
         if os.path.exists(hubstore_json_path):
@@ -284,6 +286,7 @@ class MainHost:
 
     # === PRIVATE ===
     def _filter_assets(self, assets):
+        assets = [] if not assets else assets
         cache = []
         for asset in assets:
             _, ext = os.path.splitext(asset["name"])

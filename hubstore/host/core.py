@@ -245,11 +245,13 @@ def install(owner, repo, name):
         return False, e
     # register app in apps.json
     jasonix = Jasonix(os.path.join(hubstore_apps, "apps.json"))
+    app_pkg = name.split("-")[0]
+    cache = (repo, app_pkg)
     if owner in jasonix.data:
         if repo not in jasonix.data[owner]:
-            jasonix.data[owner].append(repo)
+            jasonix.data[owner].append(cache)
     else:
-        jasonix.data[owner] = [repo]
+        jasonix.data[owner] = [cache]
     jasonix.save()
     return True, None
 
@@ -333,7 +335,7 @@ def uninstall(owner, repo):
         repos = jasonix.data[owner]
         index = None
         for i, item in enumerate(repos):
-            if item == repo:
+            if item[0] == repo:
                 index = i
                 break
         del jasonix.data[owner][index]
@@ -354,9 +356,12 @@ def run(owner, repo):
     hubstore_apps = _hubstore_apps_folder()
     root_dir = os.path.join(hubstore_apps, "apps", owner,
                             "{}-habitat".format(repo))
+    app_pkg = get_app_pkg(owner, repo)
+    if not app_pkg:
+        return False, "This app doesn't exist"
     if os.path.exists(root_dir):
         try:
-            p = subprocess.Popen([sys.executable, "-m", repo],
+            p = subprocess.Popen([sys.executable, "-m", app_pkg],
                                  cwd=root_dir)
             p.communicate()
         except Exception as e:
@@ -463,6 +468,20 @@ def split_arg(arg):
     if cache:
         args.append(cache)
     return args
+
+
+def get_app_pkg(owner, repo):
+    hubstore_apps = _hubstore_apps_folder()
+    apps_data = os.path.join(hubstore_apps, "apps.json")
+    jasonix = Jasonix(apps_data)
+    if not jasonix.data:
+        return None
+    for key, val in jasonix.data.items():
+        if key == owner:
+            for app in val:
+                if app[0] == repo:
+                    return app[1]
+    return None
 
 
 def get_gurl():
