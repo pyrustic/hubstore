@@ -176,8 +176,8 @@ class CentralView(View):
 
     def _on_enter_repo_name(self, entry):
         hovered_style = my_theme.get_entry_repo_name_hovered_style()
-        hovered_style.target(entry, raise_exception=True)
+        hovered_style.target(entry, raise_exception=False)
 
     def _on_leave_repo_name(self, entry):
         default_style = my_theme.get_entry_repo_name_default_style()
-        default_style.target(entry, raise_exception=True)
+        default_style.target(entry, raise_exception=False)

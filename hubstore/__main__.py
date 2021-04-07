@@ -11,7 +11,7 @@ def main():
     # Set theme
     app.theme = my_theme.get_theme()
     # Set view
-    app.view = MainView(app)
+    app.view = lambda: MainView(app)
     # Center the window
     app.center()
     # Lift off !

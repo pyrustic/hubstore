@@ -10,7 +10,6 @@ from hubstore.view.about_view import AboutView
 from hubstore.view.auth_view import AuthView
 from hubstore.view.app_info_view import AppInfoView
 from hubstore.view.import_list_view import ImportListView
-from hubstore.misc import my_theme
 
 
 class HeaderView(View):
@@ -129,12 +128,13 @@ class HeaderView(View):
                              consumer=consumer)
 
     def notify_auth(self, success):
-        button_style = None
+        """button_style = None
         if success:
             button_style = my_theme.get_button_auth_style()
         else:
             button_style = my_theme.get_button_style()
-        button_style.target(self._button_auth)
+        button_style.target(self._button_auth)"""
+        pass
 
     def _on_build(self):
         self._body = tk.Frame(self._master)
@@ -172,7 +172,7 @@ class HeaderView(View):
 
     def _gen_right_frame(self, master):
         # frame
-        frame = tk.Frame(master)
+        frame = tk.Frame(master, name="menu_frame")
         # button import
         button_import = tk.Button(frame,
                                   text="Import",

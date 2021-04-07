@@ -2,7 +2,7 @@
 import tkinter as tk
 from pyrustic.view import View
 from pyrustic.threadom import Threadom
-from hubstore.view.init_geet_view import InitGeetView
+from hubstore.view.init_view import InitView
 from hubstore.view.header_view import HeaderView
 from hubstore.view.central_view import CentralView
 from hubstore.view.footer_view import FooterView
@@ -68,13 +68,15 @@ class MainView(View):
 
     def _on_display(self):
         self._init_geet()
+        self._menubar = tk.Menu(self._root)
+        self._root.config(menu=self._menubar)
 
     def _on_destroy(self):
         pass
 
     def _init_geet(self):
         if self._main_host.should_init_hubstore():
-            init_geet_view = InitGeetView(self)
+            init_geet_view = InitView(self)
             init_geet_view.build()
             return
         self._central_view.load_data()

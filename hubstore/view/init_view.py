@@ -3,10 +3,11 @@ import tkinter as tk
 from tkinter import filedialog
 from pyrustic.view import View
 from pyrustic.widget.toast import Toast
+from pyrustic.widget.pathentry import Pathentry
 from pyrustic import tkmisc
 
 
-class InitGeetView(View):
+class InitView(View):
     def __init__(self, parent_view):
         super().__init__()
         self._parent_view = parent_view
@@ -16,7 +17,6 @@ class InitGeetView(View):
         self._central_view = parent_view.central_view
         self._body = None
         self._strvar_path = tk.StringVar()
-        self._entry_path = None
         self._init_success = False
 
     def notify_init_outcome(self, data):
@@ -50,25 +50,22 @@ class InitGeetView(View):
         message += "will be created in the directory that you will submit.\n"
         message += "\nSubmit a path to initialize Hubstore."
         text_description.insert("0.0", message)
+        text_description.config(state="disabled")
         text_description.pack(expand=1, fill=tk.BOTH)
         # Label 'Path'
         label_path = tk.Label(self._body, text="Path")
         label_path.pack(anchor="w", pady=(5, 0))
-        # frame entry and three_dot_button
-        frame_for_path = tk.Frame(self._body)
-        frame_for_path.pack(fill=tk.X, pady=(0, 10))
-        # entry
-        self._entry_path = tk.Entry(frame_for_path,
-                         textvariable=self._strvar_path)
-        self._entry_path.pack(side=tk.LEFT,
-                   expand=1,
-                   fill=tk.X, padx=2)
-        self._entry_path.focus_set()
-        # three_dot_button
-        button = tk.Button(frame_for_path,
-                           text="...",
-                           command=self._on_click_three_dot)
-        button.pack(side=tk.RIGHT, padx=(0, 2))
+        # pathentry
+        cache = {"entry": {"textvariable": self._strvar_path}}
+        initialdir = os.path.expanduser("~")
+        pathentry = Pathentry(self._body,
+                              browse="dir",
+                              initialdir=initialdir,
+                              title="Select a folder",
+                              extra_options=cache)
+        pathentry.pack(fill=tk.X, padx=(0, 2), pady=(0, 10))
+        self._strvar_path = pathentry.string_var
+        pathentry.components["entry"].focus_set()
         # frame footer
         frame_footer = tk.Frame(self._body)
         frame_footer.pack(fill=tk.X)
@@ -93,13 +90,6 @@ class InitGeetView(View):
     def _toplevel_geometry(self):
         super()._toplevel_geometry()
         tkmisc.dialog_effect(self._body)
-
-    def _on_click_three_dot(self):
-        path = self._get_path()
-        if path is None:
-            return
-        self._strvar_path.set(path)
-        self._entry_path.icursor("end")
 
     def _on_click_init(self):
         path = self._strvar_path.get()
