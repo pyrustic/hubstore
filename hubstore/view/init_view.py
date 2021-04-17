@@ -62,7 +62,7 @@ class InitView(View):
                               browse="dir",
                               initialdir=initialdir,
                               title="Select a folder",
-                              extra_options=cache)
+                              cnfs=cache)
         pathentry.pack(fill=tk.X, padx=(0, 2), pady=(0, 10))
         self._strvar_path = pathentry.string_var
         pathentry.components["entry"].focus_set()

@@ -24,7 +24,7 @@ def get_theme():
 def _get_general_theme():
     theme = Theme()
     theme.add_style(get_button_style(), scope="*Button*")
-    theme.add_style(_get_button_go_style(), scope="*button_go*")
+    theme.add_style(_get_header_buttons_style(), scope="*button_go*")
     theme.add_style(_get_header_buttons_style(), scope="*menu_frame*Button*")
     theme.add_style(_get_entry_owner_name_style(), scope="*entry_owner_name*")
     theme.add_style(get_entry_repo_name_default_style(), scope="*entry_repo_name*")

@@ -128,12 +128,6 @@ Play with `Hubstore` to discover more about it.
 
 If you have never installed a package from PyPI, you must install the pip tool enabling you to download and install a PyPI package. There are several methods which are described on this [page](https://pip.pypa.io/en/latest/installing/).
 
-```bash
-$ pip install hubstore
-$ hubstore
-```
-
-To upgrade Hubstore:
 
 ```bash
 $ pip install hubstore --upgrade --upgrade-strategy eager
@@ -144,7 +138,6 @@ I recommend you to try the demo: just type `pyrustic/demo` in `Hubstore`. You ca
 `Hubstore` simply take profit of the elegance of Python itself to avoid platform-specific scripts/stuff/voodoo. 
 
 
-A better README will come later. A better serious documentation well written and more stuff... For the moment, the audience is: only early adopters, hackers, curious...
 
 
 <!-- License -->
