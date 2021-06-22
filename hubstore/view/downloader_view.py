@@ -1,11 +1,11 @@
-from pyrustic.view import View
-from pyrustic.widget.scrollbox import Scrollbox
-from pyrustic.widget.toast import Toast
-from pyrustic import pymisc
+from viewable import Viewable
+from megawidget.scrollbox import Scrollbox
+from megawidget.toast import Toast
+from hubstore.misc import funcs
 import tkinter as tk
 
 
-class DownloaderView(View):
+class DownloaderView(Viewable):
     def __init__(self, parent_view, owner, repo,
                  release_data, asset_data):
         super().__init__()
@@ -19,7 +19,7 @@ class DownloaderView(View):
         self._body = None
         self._intvar = tk.IntVar()
 
-    def _on_build(self):
+    def _build(self):
         self._body = tk.Toplevel(self._master)
         self._body.title("Download the latest release")
         self._body.columnconfigure(0, weight=1)
@@ -42,12 +42,6 @@ class DownloaderView(View):
         # footer frame
         footer_frame = self._gen_footer_frame(self._body)
         footer_frame.grid(row=2, column=0, sticky="swe")
-
-    def _on_display(self):
-        pass
-
-    def _on_destroy(self):
-        pass
 
     def _gen_information_frame(self, master, app_name, release_data):
         frame = tk.Frame(master, name="downloader_information_frame")
@@ -142,7 +136,7 @@ class DownloaderView(View):
             asset_frame = tk.Frame(scrollbox.box)
             asset_frame.pack(fill=tk.X, padx=2)
             # radiobutton
-            cache = pymisc.truncate_str(asset["name"], max_size=42)
+            cache = funcs.truncate_str(asset["name"], max_size=42)
             radiobutton = tk.Radiobutton(asset_frame,
                                          variable=self._intvar,
                                          value=i,
@@ -168,8 +162,7 @@ class DownloaderView(View):
 
     def _on_click_download(self):
         if not self._asset_data:
-            Toast(self._body,
-                          message="No asset to download")
+            Toast(self._body, message="No asset to download")
             return
         choice = self._intvar.get()
         name = self._asset_data[choice]["name"]
@@ -180,5 +173,5 @@ class DownloaderView(View):
         self.destroy()
 
     def _stringify_size(self, data):
-        val, unit = pymisc.convert_size(data)
+        val, unit = funcs.convert_size(data)
         return "{} {}".format(val, unit)

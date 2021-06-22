@@ -1,9 +1,9 @@
 import tkinter as tk
-from pyrustic.view import View
-from pyrustic.widget.toast import Toast
+from viewable import Viewable
+from megawidget.toast import Toast
 
 
-class AuthView(View):
+class AuthView(Viewable):
 
     def __init__(self, parent_view):
         super().__init__()
@@ -33,7 +33,7 @@ class AuthView(View):
         toast.wait_window()
         self._parent_view.notify_auth(True)
 
-    def _on_build(self):
+    def _build(self):
         self._body = tk.Toplevel(self._master, name="auth_view")
         self._body.resizable(False, False)
         # title
@@ -58,10 +58,7 @@ class AuthView(View):
         # alter gui if not auth
         if self._is_auth:
             self._alter_gui_auth_mode(label_title, entry_token,
-                                        button_connect)
-
-    def _on_display(self):
-        pass
+                                      button_connect)
 
     def _on_destroy(self):
         pass

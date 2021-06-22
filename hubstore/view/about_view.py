@@ -1,6 +1,5 @@
 import tkinter as tk
-from pyrustic import tkmisc
-from pyrustic.view import View
+from viewable import Viewable
 import webbrowser
 
 
@@ -26,14 +25,14 @@ HUBSTORE_URL = "https://github.com/pyrustic/hubstore#readme"
 PYRUSTIC_URL = "https://github.com/pyrustic/pyrustic#readme"
 
 
-class AboutView(View):
+class AboutView(Viewable):
     def __init__(self, parent_view):
         super().__init__()
         self._parent_view = parent_view
         self._master = self._parent_view.body
         self._body = None
 
-    def _on_build(self):
+    def _build(self):
         self._body = tk.Toplevel(self._master, name="about_view")
         self._body.title("About | Hubstore")
         # text
@@ -59,14 +58,6 @@ class AboutView(View):
                                  text="Cancel",
                                  command=self.destroy)
         button_close.pack(side=tk.RIGHT, padx=(0, 2), pady=2)
-
-
-    def _on_display(self):
-        pass
-
-    def _toplevel_geometry(self):
-        super()._toplevel_geometry()
-        tkmisc.dialog_effect(self._body)
 
     def _on_destroy(self):
         pass

@@ -1,18 +1,18 @@
 import os
 import os.path
 import tkinter as tk
-from pyrustic import pymisc
 from tkinter import filedialog
-from pyrustic.view import View
-from pyrustic.widget.toast import Toast
+from viewable import Viewable
+from megawidget.toast import Toast
 from hubstore.view.downloader_view import DownloaderView
 from hubstore.view.about_view import AboutView
 from hubstore.view.auth_view import AuthView
 from hubstore.view.app_info_view import AppInfoView
 from hubstore.view.import_list_view import ImportListView
+from hubstore.misc import funcs
 
 
-class HeaderView(View):
+class HeaderView(Viewable):
 
     def __init__(self, parent_view):
         super().__init__()
@@ -89,7 +89,7 @@ class HeaderView(View):
         if status_code in (200, 304):
             message = "Rate Limit:\t{}\nRemaining :\t{}".format(data["limit"],
                                                                 data["remaining"])
-            message = pymisc.tab_to_space(message, tab_size=4)
+            message = funcs.tab_to_space(message, tab_size=4)
         else:
             duration = 1000
             message = "Failed to load data\n{}".format(status_text)
@@ -136,7 +136,7 @@ class HeaderView(View):
         button_style.target(self._button_auth)"""
         pass
 
-    def _on_build(self):
+    def _build(self):
         self._body = tk.Frame(self._master)
         # left frame
         left_frame = self._gen_left_frame(self._body)
@@ -145,9 +145,6 @@ class HeaderView(View):
         # right frame
         right_frame = self._gen_right_frame(self._body)
         right_frame.pack(side=tk.RIGHT, pady=2)
-
-    def _on_display(self):
-        pass
 
     def _on_destroy(self):
         pass
@@ -308,7 +305,6 @@ class HeaderView(View):
             return
         text = data[index]
         self._strvar_search.set(text)
-        self
         index += 1
         command = (lambda self=self,
                           data=data,

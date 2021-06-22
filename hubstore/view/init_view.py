@@ -1,13 +1,12 @@
 import os.path
 import tkinter as tk
 from tkinter import filedialog
-from pyrustic.view import View
-from pyrustic.widget.toast import Toast
-from pyrustic.widget.pathentry import Pathentry
-from pyrustic import tkmisc
+from viewable import Viewable
+from megawidget.toast import Toast
+from megawidget.pathentry import Pathentry
 
 
-class InitView(View):
+class InitView(Viewable):
     def __init__(self, parent_view):
         super().__init__()
         self._parent_view = parent_view
@@ -35,7 +34,7 @@ class InitView(View):
         toast = Toast(self._body, message=message)
         toast.wait_window()
 
-    def _on_build(self):
+    def _build(self):
         self._body = tk.Toplevel(self._master, name="init_geet_view")
         self._body.resizable(0, 0)
         # Label Title
@@ -80,16 +79,9 @@ class InitView(View):
                                   command=self.destroy)
         button_cancel.pack(side=tk.RIGHT, padx=(0, 2), pady=2)
 
-    def _on_display(self):
-        pass
-
     def _on_destroy(self):
         if not self._init_success:
             self._parent_view.leave()
-
-    def _toplevel_geometry(self):
-        super()._toplevel_geometry()
-        tkmisc.dialog_effect(self._body)
 
     def _on_click_init(self):
         path = self._strvar_path.get()
@@ -102,7 +94,6 @@ class InitView(View):
         message = ("Please set a path !" if path == ""
                    else "This path doesn't exist !")
         toast = Toast(self._body, message=message)
-        toast.build()
 
     def _get_path(self):
         initialdir = os.path.expanduser("~")

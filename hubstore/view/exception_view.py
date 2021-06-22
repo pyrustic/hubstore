@@ -1,8 +1,8 @@
 import tkinter as tk
-from pyrustic.view import View
+from viewable import Viewable
 
 
-class ExceptionView(View):
+class ExceptionView(Viewable):
     def __init__(self, parent_view, data):
         super().__init__()
         self._parent_view = parent_view
@@ -10,7 +10,7 @@ class ExceptionView(View):
         self._master = parent_view.body
         self._body = None
 
-    def _on_build(self):
+    def _build(self):
         self._body = tk.Toplevel(self._master, name="exception_view")
         self._body.title("Oops ! An Exception occurred !")
         text = tk.Text(self._body, width=50,
@@ -23,9 +23,3 @@ class ExceptionView(View):
                                  text="Close",
                                  command=self.destroy)
         button_close.pack(anchor="e", padx=2, pady=(7, 2))
-
-    def _on_display(self):
-        pass
-
-    def _on_destroy(self):
-        pass

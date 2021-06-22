@@ -5,8 +5,8 @@ import operator
 import pkgutil
 from hubstore.host import core
 from pyrustic.manager import constant
-from pyrustic.jasonix import Jasonix
-from pyrustic.gurl import Gurl
+from jayson import Jayson
+from kurl import Kurl
 
 
 class MainHost:
@@ -15,8 +15,8 @@ class MainHost:
         self._count_processes = 0
         self._processes = dict()
         self._login = None
-        self._gurl = core.get_gurl()
-        self._download_gurl = self._get_download_gurl()
+        self._kurl = core.get_kurl()
+        self._download_kurl = self._get_download_kurl()
         self._setup()
 
     # === PROPERTIES ===
@@ -56,11 +56,11 @@ class MainHost:
         Return: (status_code, status_text, login_str)
         data = the login if status is 200 or 304, else data is None
         """
-        status_code, status_text, self._login = core.auth(token, self._gurl)
+        status_code, status_text, self._login = core.auth(token, self._kurl)
         return status_code, status_text, self._login
 
     def unauth(self):
-        self._gurl.token = None
+        self._kurl.token = None
         self._login = None
 
     def parse_owner_repo(self, val):
@@ -98,7 +98,7 @@ class MainHost:
         assets = None
         status_code, status_text, data = core.fetch(owner,
                                                     repo,
-                                                    self._gurl)
+                                                    self._kurl)
         status = (status_code, status_text)
         if status_code in (200, 304):
             success = True
@@ -122,7 +122,7 @@ class MainHost:
                                                 repo,
                                                 name,
                                                 url,
-                                                self._download_gurl)
+                                                self._download_kurl)
         data = {"success": is_success, "error": error}
         if not is_success:
             return data
@@ -175,7 +175,7 @@ class MainHost:
               "data": data}
         data = {"limit": int, "remaining": int}
         """
-        status_code, status_text, data = core.rate(self._gurl)
+        status_code, status_text, data = core.rate(self._kurl)
         return {"status_code": status_code,
                 "status_text": status_text,
                 "data": data}
@@ -249,8 +249,8 @@ class MainHost:
                                           "pyrustic_data", "hubstore.json")
         data = None
         if os.path.exists(hubstore_json_path):
-            jasonix = Jasonix(hubstore_json_path)
-            path = jasonix.data.get("showcase_small_img", None)
+            jayson = Jayson(hubstore_json_path)
+            path = jayson.data.get("showcase_small_img", None)
             if path:
                 path = path.replace("./", "", 1) if path.startswith("./") else path
                 path = os.path.join(root_dir, repo, path)
@@ -270,7 +270,7 @@ class MainHost:
         del self._processes[process_id]
 
     def _setup(self):
-        shared_folder = os.path.join(constant.PYRUSTIC_DATA_FOLDER,
+        shared_folder = os.path.join(constant.SHARED_PYRUSTIC_DATA,
                                      "hubstore")
         shared_json_path = os.path.join(shared_folder,
                                         "hubstore_shared_data.json")
@@ -282,7 +282,7 @@ class MainHost:
                                             resource)
             with open(shared_json_path, "wb") as file:
                 file.write(default_json)
-        self._jasonix = Jasonix(shared_json_path)
+        self._jayson = Jayson(shared_json_path)
 
     # === PRIVATE ===
     def _filter_assets(self, assets):
@@ -299,14 +299,14 @@ class MainHost:
         data = pkgutil.get_data("hubstore", resource)
         return data
 
-    def _get_download_gurl(self):
+    def _get_download_kurl(self):
         """
-        Generate a Gurl object
+        Generate a Kurl object
         """
         headers = {"Accept": "application/octet-stream",
                    "User-Agent": "Pyrustic"}
-        gurl = Gurl(headers=headers)
-        return gurl
+        kurl = Kurl(headers=headers)
+        return kurl
 
     def _metadata(self, path):
         data = {"email": None, "version": None, "description": None,

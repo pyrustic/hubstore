@@ -6,8 +6,8 @@ import subprocess
 import sys
 import pkgutil
 from hubstore.host import constants
-from pyrustic.jasonix import Jasonix
-from pyrustic.gurl import Gurl
+from jayson import Jayson
+from kurl import Kurl
 
 
 def should_init_hubstore():
@@ -69,7 +69,7 @@ def init_hubstore(path):
     return data
 
 
-def rate(gurl):
+def rate(kurl):
     """
     Get Rate Limit
     Return: status_code, status_text, data
@@ -77,7 +77,7 @@ def rate(gurl):
     """
     target = "https://api.github.com"
     url = "{}/rate_limit".format(target)
-    response = gurl.request(url)
+    response = kurl.request(url)
     json = response.json
     status_code, status_text = response.status
     data = {}
@@ -89,7 +89,7 @@ def rate(gurl):
     return status_code, status_text, data
 
 
-def auth(token, gurl):
+def auth(token, kurl):
     """
     Auth
     Return: (status_code, status_text, login_str)
@@ -97,8 +97,8 @@ def auth(token, gurl):
     """
     target = "https://api.github.com"
     url = "{}/user".format(target)
-    gurl.token = token
-    response = gurl.request(url)
+    kurl.token = token
+    response = kurl.request(url)
     json = response.json
     status_code, status_text = response.status
     data = None
@@ -109,19 +109,19 @@ def auth(token, gurl):
     return status_code, status_text, data
 
 
-def fetch(owner, repo, gurl):
+def fetch(owner, repo, kurl):
     """ Fetch resource
     Param:
         - owner: str
         - repo: str
-        - gurl: Gurl object
+        - kurl: Kurl object
 
     Return:
         status_code, status_text, json_data
     """
     target = "https://api.github.com"
     url = "{}/repos/{}/{}/releases/latest".format(target, owner, repo)
-    response = gurl.request(url)
+    response = kurl.request(url)
     json = response.json
     status_code, status_text = response.status
     if status_code == 304:
@@ -152,14 +152,14 @@ def useful_info(data):
     return info
 
 
-def download(owner, repo, name, url, gurl):
+def download(owner, repo, name, url, kurl):
     """
-    Download the resource (url) with gurl object
+    Download the resource (url) with kurl object
     Return a boolean is_success, error, and tempfile
     """
     is_success = True
     error = None
-    response = gurl.request(url)
+    response = kurl.request(url)
     data = response.body
     if response.code == 304:
         if response.cached_response:
@@ -233,26 +233,28 @@ def install(owner, repo, name):
     dest = os.path.join(hubstore_apps, "apps", owner,
                         "{}-habitat".format(repo))
     try:
-        p = subprocess.Popen([sys.executable, "-m", "pip",
-                              "install",
-                              "--target={}".format(dest), src],
+        args = ["-m", "pip", "install",
+                "--upgrade", "--upgrade-strategy", "eager",
+                "--target={}".format(dest), src]
+        p = subprocess.Popen([sys.executable, *args],
                              stderr=subprocess.PIPE,
                              stdout=subprocess.PIPE)
         out, err = p.communicate()
         if err:
-            return False, err
+            #return False, err  # pip outputs a warning error about its own version
+            pass
     except Exception as e:
         return False, e
     # register app in apps.json
-    jasonix = Jasonix(os.path.join(hubstore_apps, "apps.json"))
+    jayson = Jayson(os.path.join(hubstore_apps, "apps.json"))
     app_pkg = name.split("-")[0]
     cache = (repo, app_pkg)
-    if owner in jasonix.data:
-        if repo not in jasonix.data[owner]:
-            jasonix.data[owner].append(cache)
+    if owner in jayson.data:
+        if repo not in jayson.data[owner]:
+            jayson.data[owner].append(cache)
     else:
-        jasonix.data[owner] = [cache]
-    jasonix.save()
+        jayson.data[owner] = [cache]
+    jayson.save()
     return True, None
 
 
@@ -313,8 +315,8 @@ def get_list():
     apps_json = os.path.join(hubstore_apps, "apps.json")
     data = None
     try:
-        jasonix = Jasonix(apps_json)
-        data = jasonix.data
+        jayson = Jayson(apps_json)
+        data = jayson.data
     except Exception as e:
         return False, e, data
     return True, None, data
@@ -329,17 +331,17 @@ def uninstall(owner, repo):
     error = None
     hubstore_apps = _hubstore_apps_folder()
     apps_data = os.path.join(hubstore_apps, "apps.json")
-    jasonix = Jasonix(apps_data)
+    jayson = Jayson(apps_data)
     root_dir = os.path.join(hubstore_apps, "apps", owner, repo)
     try:
-        repos = jasonix.data[owner]
+        repos = jayson.data[owner]
         index = None
         for i, item in enumerate(repos):
             if item[0] == repo:
                 index = i
                 break
-        del jasonix.data[owner][index]
-        jasonix.save()
+        del jayson.data[owner][index]
+        jayson.save()
     except KeyError as e:
         error = "Unknown owner"
     except (IndexError, TypeError) as e:
@@ -473,10 +475,10 @@ def split_arg(arg):
 def get_app_pkg(owner, repo):
     hubstore_apps = _hubstore_apps_folder()
     apps_data = os.path.join(hubstore_apps, "apps.json")
-    jasonix = Jasonix(apps_data)
-    if not jasonix.data:
+    jayson = Jayson(apps_data)
+    if not jayson.data:
         return None
-    for key, val in jasonix.data.items():
+    for key, val in jayson.data.items():
         if key == owner:
             for app in val:
                 if app[0] == repo:
@@ -484,14 +486,14 @@ def get_app_pkg(owner, repo):
     return None
 
 
-def get_gurl():
+def get_kurl():
     """
-    Generate a Gurl object
+    Generate a Kurl object
     """
     headers = {"Accept": "application/vnd.github.v3+json",
                "User-Agent": "Pyrustic"}
-    gurl = Gurl(headers=headers)
-    return gurl
+    kurl = Kurl(headers=headers)
+    return kurl
 
 
 # ======================================
@@ -541,9 +543,9 @@ def _register_hubstore_in_pyrustic_data(hubstore_apps):
         data = pkgutil.get_data("hubstore", resource)
         with open(HUBSTORE_SHARED_DATA_FILE, "wb") as file:
             file.write(data)
-        jasonix = Jasonix(HUBSTORE_SHARED_DATA_FILE)
-        jasonix.data["hubstore-apps"] = hubstore_apps
-        jasonix.save()
+        jayson = Jayson(HUBSTORE_SHARED_DATA_FILE)
+        jayson.data["hubstore-apps"] = hubstore_apps
+        jayson.save()
     except Exception as e:
         return e
     return None
@@ -596,8 +598,8 @@ def _moveto(src, dest):
 
 
 def _hubstore_apps_folder():
-    jasonix = Jasonix(constants.HUBSTORE_SHARED_DATA_FILE)
-    hubstore_apps = jasonix.data.get("hubstore-apps")
+    jayson = Jayson(constants.HUBSTORE_SHARED_DATA_FILE)
+    hubstore_apps = jayson.data.get("hubstore-apps")
     return hubstore_apps
 
 
@@ -605,8 +607,8 @@ def _search_install_script_in_pyrustic_data(root_dir):
     about_json = os.path.join(root_dir, "pyrustic_data", "about.json")
     if os.path.exists(about_json):
         try:
-            jasonix = Jasonix(about_json)
-            module = jasonix.data.get("install_script", None)
+            jayson = Jayson(about_json)
+            module = jayson.data.get("install_script", None)
         except Exception as e:
             return False, e, None
         else:

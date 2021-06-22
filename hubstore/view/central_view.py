@@ -1,8 +1,7 @@
 import tkinter as tk
-import os.path
-from pyrustic.view import View
-from pyrustic.widget.scrollbox import Scrollbox
-from pyrustic.widget.toast import Toast
+from viewable import Viewable
+from megawidget.scrollbox import Scrollbox
+from megawidget.toast import Toast
 from hubstore.view.app_info_view import AppInfoView
 from hubstore.misc import my_theme
 
@@ -10,7 +9,7 @@ from hubstore.misc import my_theme
 MAX_TILES_BY_ROW = 4
 
 
-class CentralView(View):
+class CentralView(Viewable):
     def __init__(self, parent_view):
         super().__init__()
         self._parent_view = parent_view
@@ -41,16 +40,10 @@ class CentralView(View):
     def load_data(self):
         self._load_data()
 
-    def _on_build(self):
+    def _build(self):
         self._body = tk.Frame(self._master)
         self._scrollbox = Scrollbox(self._body, orient="v", box_sticky="nswe")
         self._scrollbox.pack(expand=1, fill=tk.BOTH)
-
-    def _on_display(self):
-        pass
-
-    def _on_destroy(self):
-        pass
 
     def _load_data(self):
         is_success, error, data = self._host.get_list()

@@ -1,12 +1,12 @@
 import webbrowser
 import tkinter as tk
-from pyrustic.view import View
-from pyrustic.widget.toast import Toast
-from pyrustic.widget.confirm import Confirm
+from viewable import Viewable
+from megawidget.toast import Toast
+from megawidget.confirm import Confirm
 from hubstore.view.downloader_view import DownloaderView
 
 
-class AppInfoView(View):
+class AppInfoView(Viewable):
     def __init__(self, parent_view, footer_view, owner, repo):
         super().__init__()
         self._parent_view = parent_view
@@ -67,7 +67,7 @@ class AppInfoView(View):
             self._parent_view.load_data()
             self.destroy()
 
-    def _on_build(self):
+    def _build(self):
         self._body = tk.Toplevel(self._master, name="toplevel_app_info")
         self._body.title("App Info")
         # gen header frame
@@ -81,7 +81,8 @@ class AppInfoView(View):
         frame_footer = self._gen_footer_frame(self._body)
         frame_footer.pack(fill=tk.X, pady=2)
 
-    def _on_display(self):
+    def _on_map(self):
+        super()._on_map()
         self._populate()
 
     def _on_destroy(self):

@@ -6,12 +6,17 @@ from hubstore.misc import my_theme
 
 def main():
     # The App
-    app = App(__package__)
-    app.root.title("Hubstore - built with Pyrustic")
+    app = App()
+    # Title
+    app.title = "Hubstore"
+    # Geometry
+    app.geometry = "900x550+0+0"
+    # Resizable
+    app.resizable = (False, False)
     # Set theme
     app.theme = my_theme.get_theme()
     # Set view
-    app.view = lambda: MainView(app)
+    app.view = MainView(app)
     # Center the window
     app.center()
     # Lift off !

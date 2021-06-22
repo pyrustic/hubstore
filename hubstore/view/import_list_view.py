@@ -1,10 +1,10 @@
 import tkinter as tk
-from pyrustic.view import View
-from pyrustic.widget.toast import Toast
-from pyrustic.widget.scrollbox import Scrollbox
+from viewable import Viewable
+from megawidget.toast import Toast
+from megawidget.scrollbox import Scrollbox
 
 
-class ImportListView(View):
+class ImportListView(Viewable):
     def __init__(self, parent_view, header_view, data):
         super().__init__()
         self._parent_view = parent_view
@@ -23,7 +23,7 @@ class ImportListView(View):
             self._toast_cache = None
         self._header_view.notify_online_search_result(owner, repo, result)
 
-    def _on_build(self):
+    def _build(self):
         self._body = tk.Toplevel()
         self._body.resizable(False, False)
         self._body.rowconfigure(0, weight=0, uniform="a")
@@ -52,12 +52,6 @@ class ImportListView(View):
                                   text="Cancel",
                                   command=self.destroy)
         button_cancel.pack(side=tk.RIGHT, padx=(0, 2), pady=2)
-
-    def _on_display(self):
-        pass
-
-    def _on_destroy(self):
-        pass
 
     def _on_click_download(self):
         user_choice = self._intvar.get()

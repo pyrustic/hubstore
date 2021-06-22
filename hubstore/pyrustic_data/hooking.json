@@ -1,0 +1,14 @@
+{
+    "ante_build": [
+        "hubstore.hooking.ante_build_hook"
+    ],
+    "ante_release": [
+        "hubstore.hooking.ante_release_hook"
+    ],
+    "post_build": [
+        "hubstore.hooking.post_build_hook"
+    ],
+    "post_release": [
+        "hubstore.hooking.post_release_hook"
+    ]
+}
