@@ -1,5 +1,4 @@
-from themebase import Theme
-import stylebase
+import tkstyle
 from cyberpunk_theme import Cyberpunk
 from cyberpunk_theme.widget import button
 from cyberpunk_theme.widget import entry
@@ -14,43 +13,39 @@ from cyberpunk_theme import constant
 # ========================================
 def get_theme():
     theme = Cyberpunk()
-    theme.add_theme(_get_general_theme())
+    theme.add(get_button_style(), pattern="*Button")
+    theme.add(_get_header_buttons_style(), pattern="*button_go")
+    theme.add(_get_header_buttons_style(), pattern="*menu_frame*Button")
+    theme.add(_get_entry_owner_name_style(), pattern="*entry_owner_name")
+    theme.add(get_entry_repo_name_default_style(), pattern="*entry_repo_name")
+    theme.add(_get_entry_running_app_name_style(), pattern="*entry_running_app_name")
+    theme.add(_get_button_close_style(), pattern="*button_close")
+    theme.add(_get_label_path_app_info_style(),
+                    pattern="*toplevel_app_info*label_path")
+    theme.add(_get_entry_path_app_info_style(),
+                    pattern="*toplevel_app_info*entry_path")
+    theme.add(_get_entry_form_app_info_style(),
+                    pattern="*toplevel_app_info*central_frame*Entry")
+    theme.add(_get_text_description_app_info_style(),
+                    pattern="*toplevel_app_info*central_frame*Text")
+    theme.add(_get_text_description_app_info_style(),
+                    pattern="*about_view*Text")
+    theme.add(_get_radiobbuton_style(), pattern="*Radiobutton")
+    theme.add(_get_entry_form_app_info_style(),
+                    pattern="*downloader_information_frame*Entry")
+    theme.add(_get_title_latest_release_style(),
+                    pattern="*title_latest_release")
+    theme.add(_get_title_latest_release_style(),
+                    pattern="*init_geet_label")
+    theme.add(_get_text_description_app_info_style(),
+                    pattern="*init_geet_view*Text")
+    theme.add(_get_text_description_app_info_style(),
+                    pattern="*exception_view*Text")
     return theme
 
 # ===================================
 #              GENERAL
 # ===================================
-def _get_general_theme():
-    theme = Theme()
-    theme.add_style(get_button_style(), scope="*Button*")
-    theme.add_style(_get_header_buttons_style(), scope="*button_go*")
-    theme.add_style(_get_header_buttons_style(), scope="*menu_frame*Button*")
-    theme.add_style(_get_entry_owner_name_style(), scope="*entry_owner_name*")
-    theme.add_style(get_entry_repo_name_default_style(), scope="*entry_repo_name*")
-    theme.add_style(_get_entry_running_app_name_style(), scope="*entry_running_app_name*")
-    theme.add_style(_get_button_close_style(), scope="*button_close*")
-    theme.add_style(_get_label_path_app_info_style(),
-                    scope="*toplevel_app_info*label_path*")
-    theme.add_style(_get_entry_path_app_info_style(),
-                    scope="*toplevel_app_info*entry_path*")
-    theme.add_style(_get_entry_form_app_info_style(),
-                    scope="*toplevel_app_info*central_frame*Entry*")
-    theme.add_style(_get_text_description_app_info_style(),
-                    scope="*toplevel_app_info*central_frame*Text*")
-    theme.add_style(_get_text_description_app_info_style(),
-                    scope="*about_view*Text*")
-    theme.add_style(_get_radiobbuton_style(), scope="*Radiobutton*")
-    theme.add_style(_get_entry_form_app_info_style(),
-                    scope="*downloader_information_frame*Entry*")
-    theme.add_style(_get_title_latest_release_style(),
-                    scope="*title_latest_release*")
-    theme.add_style(_get_title_latest_release_style(),
-                    scope="*init_geet_label*")
-    theme.add_style(_get_text_description_app_info_style(),
-                    scope="*init_geet_view*Text*")
-    theme.add_style(_get_text_description_app_info_style(),
-                    scope="*exception_view*Text*")
-    return theme
 
 
 # button style
@@ -86,21 +81,11 @@ def _get_button_go_style():
 def _get_header_buttons_style():
     style = button.get_style()
     style.cursor = "hand1"
-    style.background = "#181818"
-    style.background = "red"
-    style.foreground = "#A098A0"
-    style.highlightBackground = "#484048"
     style.highlightBackground = "#204343"
     style.highlightColor = "white"
     style.highlightThickness = 1
-    style.relief = "flat"
     style.padY = 0
-    style.activeBackground = "#202020"
-    style.activeForeground = "#D0C8D0"
-    style.background = "#003333"
     style.background = "#002323"
-    style.foreground = "#98CBCB"
-    style.foreground = "#90ABAB"
     style.foreground = "#C0DBDB"
     style.activeBackground = "#003333"
     style.activeForeground = "#C8FBFB"
@@ -115,7 +100,6 @@ def _get_header_buttons_style():
 def _get_entry_owner_name_style():
     style = entry.get_style()
     style.readonlyBackground = constant.COLOR_BLACK
-    style.foreground = "#686068"
     style.foreground = "#989098"
     style.font = constant.FONT_DEFAULT_FAMILY, 11, "bold"
     return style
@@ -132,9 +116,7 @@ def get_entry_repo_name_default_style():
 # entry repo name (bis)
 def get_entry_repo_name_hovered_style():
     style = entry.get_style()
-    style.readonlyBackground = "#00312C"
     style.readonlyBackground = "#00413C"
-    style.foreground = constant.COLOR_ALMOST_WHITE
     style.foreground = "#E0E8EF"
     #style.highlightThickness = 1
     style.font = constant.FONT_DEFAULT_FAMILY, 12, "bold"
@@ -143,13 +125,7 @@ def get_entry_repo_name_hovered_style():
 # entry running app name
 def _get_entry_running_app_name_style():
     style = entry.get_style()
-    style.readonlyBackground = constant.COLOR_BLACK
-    style.readonlyBackground = "#005954"
     style.readonlyBackground = "#181818"
-    style.foreground = "#9F9FC7"
-    style.foreground = "#D7EFCF"
-    style.foreground = "#C7DFBF"
-    style.foreground = constant.COLOR_ALMOST_WHITE
     style.foreground = "#A098A0"
     style.highlightBackground = "#484048"
     style.highlightThickness = 1
@@ -157,10 +133,8 @@ def _get_entry_running_app_name_style():
     return style
 
 def _get_button_close_style():
-    style = stylebase.Button()
-    style.background = "#191919"
+    style = tkstyle.Button()
     style.background = constant.COLOR_BLACK
-    style.activeBackground = "#670000"
     style.activeBackground = constant.COLOR_BLACK
     style.activeForeground = "#FF0023"
     style.foreground = "#606060"
@@ -189,11 +163,8 @@ def _get_entry_path_app_info_style():
 def _get_entry_form_app_info_style():
     style = entry.get_style()
     style.font = constant.FONT_FAV_NORMAL
-    style.readonlyBackground = "#EFEFEF"
-    style.readonlyBackground = constant.COLOR_BLACK
     style.readonlyBackground = "#101818"
     style.highlightThickness = 0
-    style.foreground = constant.COLOR_BLACK
     style.foreground = "#B4C7EF"
     style.relief = "flat"
     style.selectBackground = "#B4C7EF"
@@ -202,12 +173,9 @@ def _get_entry_form_app_info_style():
 def _get_text_description_app_info_style():
     style = text.get_style()
     style.font = constant.FONT_FAV_NORMAL
-    style.readonlyBackground = "#EFEFEF"
     style.readonlyBackground = "#B4C7EF"  # TODO: remove this nan ?
-    style.background = constant.COLOR_BLACK
     style.background = "#101818"
     style.highlightThickness = 0
-    style.foreground = constant.COLOR_BLACK
     style.foreground = "#B4C7EF"
     style.relief = "flat"
     #style.inactiveSelectBackground = "#B4C7EF"
@@ -238,9 +206,7 @@ def _get_title_latest_release_style():
 def get_button_auth_style():
     style = button.get_style()
     style.cursor = "hand1"
-    style.background = "#181818"
     style.background = "#183018"
-    style.foreground = "#A098A0"
     style.foreground = "#A0C0A0"
     style.highlightBackground = "#484048"
     style.highlightColor = "white"
