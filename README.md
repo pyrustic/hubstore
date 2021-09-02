@@ -14,7 +14,7 @@
 This project is part of the [Pyrustic Open Ecosystem](https://pyrustic.github.io).
 
 <!-- Quick Links -->
-[Installation](#installation) | [User side](#user-side) | [Developer side](#developer-side)
+[Installation](#installation) | [User side](#user-side) | [Developer side](#developer-side) | [Demo](#demo)
 
 
 
@@ -119,6 +119,14 @@ To `promote` other apps of which you are the author or friend of the authors, mo
 
 `Hubstore` is built with `Pyrustic framework` and is available on PyPI. As `Hubstore` uses the standard Python `Wheel` package format, it is compatible with many existing projects.
 
+## Demo
+[Install](#installation) `Hubstore` in a new Python virtual environment. Open `Hubstore`, accept the default configuration to store data in $HOME, then just type in the search bar `pyrustic/demo` or copy-paste `https://github.com/pyrustic/demo`. You will be asked if you want to install the demo app. Once installed, you can run the app. You can also deliberately crash the demo app: just click the `crash` button. `Hubstore` will intercept the crash and it will offer you to report it.
+
+
+If you are an old user of Hubstore, please delete/move `$HOME/hubstore-apps` and `$HOME/PyrusticData` before you open the new version of `Hubstore`. Yes this new version isn't compatible with the previous one.
+
+Enjoy the demo !
+
 ## Installation
 If you have never installed a package from PyPI, you must install the pip tool enabling you to download and install a PyPI package. There are several methods which are described on this [page](https://pip.pypa.io/en/latest/installing/).
 
@@ -127,7 +135,10 @@ If you have never installed a package from PyPI, you must install the pip tool e
 $ pip install hubstore
 ```
 
+I recommend even for the first time to use the next command (upgrade). `Hubstore` needs the latest version of its dependencies.
+
 ### Upgrade
+
 ```bash
 $ pip install hubstore --upgrade --upgrade-strategy eager
 ```

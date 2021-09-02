@@ -1,1 +1,8 @@
-[]
+[
+    {
+        "app_version": "0.1.0",
+        "released": true,
+        "timestamp": 1630597575,
+        "wheel_asset": "hubstore-0.1.0-py3-none-any.whl"
+    }
+]
