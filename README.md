@@ -23,7 +23,7 @@ This project is part of the [Pyrustic Open Ecosystem](https://pyrustic.github.io
 
 Let's visit both sides of the distribution pipeline.
 
-### The user side
+### User side
 Let's discover Hubstore through a series of screenshots
 
 <div align="center">
@@ -92,7 +92,7 @@ Let's discover Hubstore through a series of screenshots
 
 
 
-### The developer side
+### Developer side
 Once you have developed a Python desktop application with or without [Pyrustic Framework](https://github.com/pyrustic/pyrustic#readme), the next goal is to distribute it to end users.
 
 Suppose you already have a Github profile and have already created a repository named as your project name.
