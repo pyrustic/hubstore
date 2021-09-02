@@ -1,106 +1,78 @@
 
 # Reference Overview
 
-[hubstore.\_\_init\_\_](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.\_\_init\_\_.md) 
+[hubstore.\_\_init\_\_](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.\_\_init\_\_.md#hubstore\_\_init\_\_) 
 <br>
  
 
-[hubstore.\_\_main\_\_](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.\_\_main\_\_.md) 
+[hubstore.\_\_main\_\_](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.\_\_main\_\_.md#hubstore\_\_main\_\_) 
 <br>
  
 
-[hubstore.hooking.\_\_init\_\_](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.hooking.\_\_init\_\_.md) 
+[hubstore.core.\_\_init\_\_](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.core.\_\_init\_\_.md#hubstorecore\_\_init\_\_) 
 <br>
  
 
-[hubstore.hooking.ante\_build\_hook](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.hooking.ante\_build\_hook.md) 
+[hubstore.host.\_\_init\_\_](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.host.\_\_init\_\_.md#hubstorehost\_\_init\_\_) 
 <br>
  
 
-[hubstore.hooking.ante\_release\_hook](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.hooking.ante\_release\_hook.md) 
+[hubstore.misc.\_\_init\_\_](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.misc.\_\_init\_\_.md#hubstoremisc\_\_init\_\_) 
 <br>
  
 
-[hubstore.hooking.post\_build\_hook](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.hooking.post\_build\_hook.md) 
+[hubstore.misc.constant](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.misc.constant.md#hubstoremiscconstant) 
 <br>
  
 
-[hubstore.hooking.post\_release\_hook](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.hooking.post\_release\_hook.md) 
+[hubstore.misc.funcs](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.misc.funcs.md#hubstoremiscfuncs) 
 <br>
  
 
-[hubstore.host.\_\_init\_\_](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.host.\_\_init\_\_.md) 
+[hubstore.misc.theme](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.misc.theme.md#hubstoremisctheme) 
 <br>
  
 
-[hubstore.host.constants](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.host.constants.md) 
+[hubstore.view.\_\_init\_\_](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.\_\_init\_\_.md#hubstoreview\_\_init\_\_) 
 <br>
  
 
-[hubstore.host.core](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.host.core.md) 
+[hubstore.view.about](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.about.md#hubstoreviewabout) 
 <br>
  
 
-[hubstore.host.main\_host](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.host.main\_host.md) 
+[hubstore.view.info](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.info.md#hubstoreviewinfo) 
 <br>
  
 
-[hubstore.misc.\_\_init\_\_](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.misc.\_\_init\_\_.md) 
+[hubstore.view.installer](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.installer.md#hubstoreviewinstaller) 
 <br>
  
 
-[hubstore.misc.funcs](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.misc.funcs.md) 
+[hubstore.view.main](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.main.md#hubstoreviewmain) 
 <br>
  
 
-[hubstore.misc.my\_theme](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.misc.my\_theme.md) 
+[hubstore.view.openlist](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.openlist.md#hubstoreviewopenlist) 
 <br>
  
 
-[hubstore.view.\_\_init\_\_](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.\_\_init\_\_.md) 
+[hubstore.view.pane](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.pane.md#hubstoreviewpane) 
 <br>
  
 
-[hubstore.view.about\_view](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.about\_view.md) 
+[hubstore.view.promoted](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.promoted.md#hubstoreviewpromoted) 
 <br>
  
 
-[hubstore.view.app\_info\_view](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.app\_info\_view.md) 
+[hubstore.view.report](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.report.md#hubstoreviewreport) 
 <br>
  
 
-[hubstore.view.auth\_view](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.auth\_view.md) 
+[hubstore.view.toolbar](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.toolbar.md#hubstoreviewtoolbar) 
 <br>
  
 
-[hubstore.view.central\_view](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.central\_view.md) 
-<br>
- 
-
-[hubstore.view.downloader\_view](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.downloader\_view.md) 
-<br>
- 
-
-[hubstore.view.exception\_view](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.exception\_view.md) 
-<br>
- 
-
-[hubstore.view.footer\_view](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.footer\_view.md) 
-<br>
- 
-
-[hubstore.view.header\_view](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.header\_view.md) 
-<br>
- 
-
-[hubstore.view.import\_list\_view](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.import\_list\_view.md) 
-<br>
- 
-
-[hubstore.view.init\_view](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.init\_view.md) 
-<br>
- 
-
-[hubstore.view.main\_view](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.main\_view.md) 
+[hubstore.view.views](https://github.com/pyrustic/hubstore/blob/master/docs/reference/content/hubstore.view.views.md#hubstoreviewviews) 
 <br>
  

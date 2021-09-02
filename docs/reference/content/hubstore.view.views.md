@@ -1,7 +1,7 @@
 
 Back to [Reference Overview](https://github.com/pyrustic/hubstore/blob/master/docs/reference/README.md#readme)
 
-# hubstore.\_\_main\_\_
+# hubstore.view.views
 
 
 
@@ -10,10 +10,15 @@ Back to [Reference Overview](https://github.com/pyrustic/hubstore/blob/master/do
 
 ```python
 
-def main():
+class Views:
     """
     
     """
+
+    def __init__(self):
+        """
+        Initialize self.  See help(type(self)) for accurate signature.
+        """
 
 ```
 

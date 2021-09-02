@@ -1,5 +1,5 @@
 
-Back to [Reference Overview](https://github.com/pyrustic/hubstore/blob/master/docs/reference/README.md)
+Back to [Reference Overview](https://github.com/pyrustic/hubstore/blob/master/docs/reference/README.md#readme)
 
 # hubstore.misc.funcs
 
@@ -7,6 +7,17 @@ Back to [Reference Overview](https://github.com/pyrustic/hubstore/blob/master/do
 
 <br>
 
+
+```python
+
+def badass_iso_8601_date_parser(date):
+    """
+    
+    """
+
+```
+
+<br>
 
 ```python
 
@@ -22,18 +33,7 @@ def convert_size(size):
 
 ```python
 
-def tab_to_space(text, tab_size=4):
-    """
-    
-    """
-
-```
-
-<br>
-
-```python
-
-def truncate_str(data, max_size=15, ellipsis='...'):
+def dirty_metadata_parser(path):
     """
     
     """
