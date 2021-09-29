@@ -338,7 +338,7 @@ class Host:
                 location = os.path.join(habitat_path, app_pkg,
                                         "pyrustic_data",
                                         "hubstore")
-                jason = Jason("promotion", location=location,
+                jason = Jason("promotion.json", location=location,
                               readonly=True)
                 if not jason.data:
                     continue
@@ -368,7 +368,7 @@ class Data:
         if not self._host.initialized:
             return os.path.expanduser("~")
         location = os.path.join(constant.PYRUSTIC_DATA, "hubstore")
-        jason = Jason("meta", location=location)
+        jason = Jason("meta.json", location=location)
         return os.path.dirname(jason.data.get("hubstore-apps"))
 
     def get_all_apps(self):

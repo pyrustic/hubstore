@@ -21,7 +21,7 @@ def get_store():
     cache = os.path.join(constant.PYRUSTIC_DATA, "hubstore")
     if not valid_jason(os.path.join(cache, "meta.json")):
         return None
-    jason = Jason("meta", location=cache)
+    jason = Jason("meta.json", location=cache)
     if not jason.data:
         return None
     path = jason.data.get("hubstore-apps")
@@ -248,7 +248,7 @@ def app_metadata(owner, repo):
     pyrustic_data = os.path.join(path, app_pkg,
                                  "pyrustic_data",
                                  "hubstore")
-    jason = Jason("img", location=pyrustic_data)
+    jason = Jason("img.json", location=pyrustic_data)
     if jason.data:
         data["small_img"] = jason.data.get("small_img")
         data["large_img"] = jason.data.get("large_img")
@@ -562,7 +562,7 @@ def _create_hubstore_apps_folder(parent_path):
 
 def _register_hubstore_in_pyrustic_data(hubstore_apps):
     location = os.path.join(constant.PYRUSTIC_DATA, "hubstore")
-    jason = Jason("meta", location=location)
+    jason = Jason("meta.json", location=location)
     jason.data = {"hubstore-apps": hubstore_apps}
     jason.save()
 

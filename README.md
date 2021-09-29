@@ -90,8 +90,6 @@ Let's discover Hubstore through a series of screenshots
 <br>
 
 
-
-
 ### Developer side
 Once you have developed a Python desktop application with or without [Pyrustic Framework](https://github.com/pyrustic/pyrustic#readme), the next goal is to distribute it to end users.
 
