@@ -1,10 +1,10 @@
 import tkinter as tk
 from viewable import Viewable
-from megawidget.scrollbox import Scrollbox
+from megawidget.scrollbox import ScrollBox
 from megawidget.toast import Toast
 from hubstore.misc.theme import get_entry_description_style, \
     get_info_entry_owner_repo_style, get_package_size_style
-from cyberpunk_theme.widget.button import get_button_style_1, get_button_style_4, get_button_style_7
+from cyberpunk_theme.widget.button import get_button_dark_style, get_button_blue_filled_style, get_button_yellow_style
 
 
 class Promoted(Viewable):
@@ -24,7 +24,7 @@ class Promoted(Viewable):
         self._body.title("Promoted Apps")
         self._body.resizable(False, False)
         #self._body.overrideredirect(1)
-        self._scrollbox = Scrollbox(self._body)
+        self._scrollbox = ScrollBox(self._body)
         self._scrollbox.pack(expand=1, fill=tk.BOTH)
         # install header
         #self._install_header()
@@ -117,7 +117,7 @@ class Promoted(Viewable):
         button_close = tk.Button(frame, text="Close",
                            command=self.destroy)
         button_close.pack(side=tk.RIGHT)
-        get_button_style_4().target(button_more)
+        get_button_blue_filled_style().target(button_more)
 
     def _on_click_get(self, owner_repo):
         cache = owner_repo.split("/")

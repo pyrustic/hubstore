@@ -1,11 +1,11 @@
 import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
 from viewable import Viewable
-from megawidget.scrollbox import Scrollbox
+from megawidget.scrollbox import ScrollBox
 from megawidget.toast import Toast
 from hubstore.misc.theme import get_entry_description_style, \
     get_info_entry_owner_repo_style, get_package_size_style
-from cyberpunk_theme.widget.button import get_button_style_4, get_button_style_9
+from cyberpunk_theme.widget.button import get_button_blue_filled_style, get_button_red_style
 
 
 class Report(Viewable):
@@ -85,7 +85,7 @@ class Report(Viewable):
         button_report = tk.Button(frame, text="Report",
                                   command=self._on_click_report)
         button_report.pack(side=tk.RIGHT)
-        get_button_style_4().target(button_report)
+        get_button_blue_filled_style().target(button_report)
         # button copy
         button_copy = tk.Button(frame, text="Copy",
                                 command=self._on_click_copy)

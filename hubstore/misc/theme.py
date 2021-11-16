@@ -1,5 +1,4 @@
 from cyberpunk_theme import Cyberpunk
-from cyberpunk_theme import constant
 from cyberpunk_theme.widget import button, entry, listbox, label, frame
 import tkstyle
 
@@ -23,7 +22,7 @@ def get_theme():
 
 
 def get_button_style():
-    style = button.get_button_style_2()
+    style = button.get_button_dark_filled_style()
     style.foreground = "gray"
     style.padX = 5
     style.padY = 0
@@ -36,6 +35,7 @@ def get_button_style():
 def get_entry_style():
     style = entry.get_style()
     style.font = "Liberation Mono", 11, "normal"
+    style.highlightThickness = 0
     return style
 
 

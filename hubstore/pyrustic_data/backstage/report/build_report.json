@@ -4,5 +4,11 @@
         "released": true,
         "timestamp": 1630597575,
         "wheel_asset": "hubstore-0.1.0-py3-none-any.whl"
+    },
+    {
+        "app_version": "0.1.1",
+        "released": true,
+        "timestamp": 1632945124,
+        "wheel_asset": "hubstore-0.1.1-py3-none-any.whl"
     }
 ]

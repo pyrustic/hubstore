@@ -1,10 +1,10 @@
 import tkinter as tk
 from viewable import Viewable
-from megawidget.scrollbox import Scrollbox
+from megawidget.scrollbox import ScrollBox
 from megawidget.toast import Toast
 from hubstore.misc.theme import get_entry_description_style, \
     get_info_entry_owner_repo_style, get_package_size_style
-from cyberpunk_theme.widget.button import get_button_style_4, get_button_style_9
+from cyberpunk_theme.widget.button import get_button_blue_filled_style, get_button_red_style
 
 
 class Openlist(Viewable):
@@ -32,7 +32,7 @@ class Openlist(Viewable):
         self._body.title("Apps Manager")
         self._body.resizable(False, False)
         #self._body.overrideredirect(1)
-        self._scrollbox = Scrollbox(self._body)
+        self._scrollbox = ScrollBox(self._body)
         self._scrollbox.pack(expand=1, fill=tk.BOTH)
         # install header
         self._install_header()
@@ -93,7 +93,7 @@ class Openlist(Viewable):
         button = tk.Button(frame, text="Stop",
                            command=command)
         button.pack(side=tk.LEFT, padx=(5, 0))
-        get_button_style_9().target(button)
+        get_button_red_style().target(button)
 
     def _install_footer(self):
         frame = tk.Frame(self._body)

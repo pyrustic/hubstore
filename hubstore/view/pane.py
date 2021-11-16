@@ -1,6 +1,6 @@
 import tkinter as tk
 from viewable import Viewable
-from megawidget.scrollbox import Scrollbox
+from megawidget.scrollbox import ScrollBox
 from megawidget.toast import Toast
 from hubstore.misc.theme import get_highlight_style, get_unhighlight_style
 
@@ -37,7 +37,7 @@ class Pane(Viewable):
 
     def _build(self):
         self._body = tk.Frame(self._master)
-        self._scrollbox = Scrollbox(self._body)
+        self._scrollbox = ScrollBox(self._body)
         self._scrollbox.pack(expand=1, fill=tk.BOTH)
         frame_header = tk.Frame(self._scrollbox.box)
         frame_header.pack(fill=tk.X, pady=(10, 1))

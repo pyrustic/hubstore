@@ -1,10 +1,10 @@
 import tkinter as tk
 from viewable import Viewable
-from megawidget.scrollbox import Scrollbox
+from megawidget.scrollbox import ScrollBox
 from megawidget.toast import Toast
 from hubstore.misc.theme import get_entry_description_style
 from hubstore.misc.theme import get_info_entry_owner_repo_style
-from cyberpunk_theme.widget.button import get_button_style_9, get_button_style_4
+from cyberpunk_theme.widget.button import get_button_red_style, get_button_blue_filled_style
 
 
 class Info(Viewable):
@@ -127,12 +127,12 @@ class Info(Viewable):
         button_uninstall = tk.Button(frame, text="Uninstall",
                                      command=self._on_click_uninstall)
         button_uninstall.pack(side=tk.LEFT)
-        get_button_style_9().target(button_uninstall)
+        get_button_red_style().target(button_uninstall)
         # button run
         button_run = tk.Button(frame, text="Run",
                                  command=self._on_click_run)
         button_run.pack(side=tk.RIGHT, padx=(3, 0))
-        get_button_style_4().target(button_run)
+        get_button_blue_filled_style().target(button_run)
         # button close
         button_close = tk.Button(frame, text="Close",
                                  command=self.destroy)

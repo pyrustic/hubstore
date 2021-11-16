@@ -1,9 +1,9 @@
 import tkinter as tk
 from viewable import Viewable
-from megawidget.pathentry import Pathentry
+from megawidget.pathfield import PathField
 import os
 import os.path
-from cyberpunk_theme.widget.button import get_button_style_4, get_button_style_7
+from cyberpunk_theme.widget.button import get_button_blue_filled_style, get_button_yellow_style
 
 
 ABOUT_TEXT = """Download, install, manage, promote, and run Python desktop apps with Hubstore.
@@ -77,7 +77,7 @@ class About(Viewable):
         frame.pack(fill=tk.X, padx=3, pady=(0, 20))
         label = tk.Label(frame, text="Directory to store apps", padx=0, borderwidth=0)
         label.pack(anchor="w")
-        pathentry = Pathentry(frame, browse="dir",
+        pathentry = PathField(frame, browse="dir",
                               initialdir=os.path.expanduser("~"),
                               textvariable=self._strvar_apps_directory)
         pathentry.pack(fill=tk.X, anchor="w")
@@ -88,11 +88,11 @@ class About(Viewable):
         command = lambda self=self: self._on_click_website()
         button_website = tk.Button(frame, text="Website", command=command)
         button_website.pack(side=tk.LEFT, padx=(0, 3))
-        get_button_style_7().target(button_website)
+        get_button_yellow_style().target(button_website)
         command = lambda self=self: self._on_click_accept()
         button_accept = tk.Button(frame, text="Accept", command=command)
         button_accept.pack(side=tk.RIGHT)
-        get_button_style_4().target(button_accept)
+        get_button_blue_filled_style().target(button_accept)
         command = lambda self=self: self.destroy()
         button_close = tk.Button(frame, text="Close", command=command)
         button_close.pack(side=tk.RIGHT, padx=3)

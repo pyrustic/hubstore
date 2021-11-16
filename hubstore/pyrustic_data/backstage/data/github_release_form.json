@@ -1,13 +1,13 @@
 {
     "asset_label": "Download the Wheel",
-    "asset_name": "hubstore-0.1.0-py3-none-any.whl",
+    "asset_name": "hubstore-0.1.1-py3-none-any.whl",
     "description": "\nProject released with [Backstage](https://github.com/pyrustic/backstage).\n",
     "is_draft": false,
     "is_prerelease": false,
     "owner": "pyrustic",
-    "release_name": "hubstore v0.1.0",
+    "release_name": "hubstore v0.1.1",
     "repository": "hubstore",
-    "tag_name": "v0.1.0",
+    "tag_name": "v0.1.1",
     "target_commitish": "master",
     "upload_asset": false
 }

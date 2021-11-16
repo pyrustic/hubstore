@@ -1,4 +1,4 @@
-from pyrustic.app import App
+from tkf import App
 from hubstore.misc.theme import get_theme
 from hubstore.view.main import Main
 
@@ -23,6 +23,4 @@ def main():
 
 
 if __name__ == "__main__":
-    from hubstore.view import views
-    views.Views.patcha = 3.14
     main()

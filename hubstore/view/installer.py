@@ -1,11 +1,11 @@
 import tkinter as tk
 from viewable import Viewable
-from megawidget.scrollbox import Scrollbox
+from megawidget.scrollbox import ScrollBox
 from megawidget.toast import Toast
 from hubstore.misc import funcs
 from hubstore.misc.theme import get_entry_description_style, \
     get_info_entry_owner_repo_style, get_package_size_style
-from cyberpunk_theme.widget.button import get_button_style_4, get_button_style_9
+from cyberpunk_theme.widget.button import get_button_blue_filled_style, get_button_red_style
 
 
 class Installer(Viewable):
