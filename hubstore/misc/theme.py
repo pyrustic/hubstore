@@ -1,10 +1,10 @@
-from cyberpunk_theme import Cyberpunk
+import cyberpunk_theme
 from cyberpunk_theme.widget import button, entry, listbox, label, frame
 import tkstyle
 
 
 def get_theme():
-    theme = Cyberpunk()
+    theme = cyberpunk_theme.get_theme()
     theme.add(get_button_style(), pattern="*Button")
     theme.add(get_entry_style(), pattern="*Entry")
     theme.add(get_listbox_style(), pattern="*Listbox")

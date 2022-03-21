@@ -105,7 +105,7 @@ class Toolbar(Viewable):
                          state="readonly", cursor="hand1")
         entry.pack(side=tk.LEFT)
         entry.bind("<Button-1>", lambda e, self=self: self._on_search())
-        get_text_search_style().target(entry)
+        get_text_search_style().apply(entry)
         # search entry
         self._entry_search = tk.Entry(frame,
                                       textvariable=self._search_strvar)

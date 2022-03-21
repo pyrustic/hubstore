@@ -6,7 +6,7 @@ import webbrowser
 import subprocess
 import pkgutil
 from threadom import Threadom
-from shared import Jason
+from shared import Document
 from hubstore import core
 from hubstore.misc import constant
 
@@ -134,7 +134,8 @@ class Host:
         owner_repo = "{}/{}".format(owner, repo)
         store = core.get_store()
         data = store.get(owner_repo)
-        data = data.copy()
+        if not data:
+            return
         data["owner_repo"] = owner_repo
         data["favorite"] = True if owner_repo in store.get("favorites") else False
         data["repository"] = "https://github.com/{}".format(owner_repo)
@@ -335,10 +336,10 @@ class Host:
             for repo in repos:
                 habitat_path = core.get_path(owner, repo)
                 app_pkg = core.get_app_pkg(owner, repo)
-                location = os.path.join(habitat_path, app_pkg,
+                directory = os.path.join(habitat_path, app_pkg,
                                         "pyrustic_data",
                                         "hubstore")
-                jason = Jason("promotion.json", location=location,
+                jason = Document("promotion.json", directory=directory,
                               readonly=True)
                 if not jason.data:
                     continue
@@ -367,8 +368,8 @@ class Data:
     def get_apps_directory(self):
         if not self._host.initialized:
             return os.path.expanduser("~")
-        location = os.path.join(constant.PYRUSTIC_DATA, "hubstore")
-        jason = Jason("meta.json", location=location)
+        directory = os.path.join(constant.PYRUSTIC_DATA, "hubstore")
+        jason = Document("meta.json", directory=directory)
         return os.path.dirname(jason.data.get("hubstore-apps"))
 
     def get_all_apps(self):

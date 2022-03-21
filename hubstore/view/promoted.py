@@ -115,9 +115,9 @@ class Promoted(Viewable):
         button_more.pack(side=tk.RIGHT, padx=(3, 0))
         # button more
         button_close = tk.Button(frame, text="Close",
-                           command=self.destroy)
+                           command=self.body.destroy)
         button_close.pack(side=tk.RIGHT)
-        get_button_blue_filled_style().target(button_more)
+        get_button_blue_filled_style().apply(button_more)
 
     def _on_click_get(self, owner_repo):
         cache = owner_repo.split("/")
@@ -125,7 +125,7 @@ class Promoted(Viewable):
             return
         owner, repo = cache
         self._host.search(owner, repo)
-        self.destroy()
+        self.body.destroy()
 
     def _on_click_visit(self, owner_repo):
         github_prefix = "https://github.com/"
@@ -134,5 +134,5 @@ class Promoted(Viewable):
 
 
     def _on_click_more(self):
-        self.destroy()
+        self.body.destroy()
         self._host.show_promoted()

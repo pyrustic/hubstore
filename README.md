@@ -1,3 +1,7 @@
+**Hubstore is built with the TkF Framework. But since Gaspium Framework outperforms TkF, Hubstore should be refactored to work with Gaspium**
+
+**Work in progress...** (new version in April)
+
 <!-- Image -->
 <div align="center">
     <img src="https://raw.githubusercontent.com/pyrustic/misc/master/media/ecosystem.png" alt="Hubstore Cover">

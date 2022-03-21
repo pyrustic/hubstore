@@ -10,7 +10,7 @@ from hubstore.misc import funcs
 from tempfile import TemporaryDirectory
 from hubstore.misc import constant
 from kurl import Kurl
-from shared import Store, Jason, valid_store, valid_jason
+from shared import Dossier, Document
 
 
 def get_store():
@@ -19,18 +19,14 @@ def get_store():
     else returns None
     """
     cache = os.path.join(constant.PYRUSTIC_DATA, "hubstore")
-    if not valid_jason(os.path.join(cache, "meta.json")):
-        return None
-    jason = Jason("meta.json", location=cache)
+    jason = Document("meta.json", directory=cache)
     if not jason.data:
         return None
     path = jason.data.get("hubstore-apps")
     if not path:
         return None
     cache = os.path.join(path, "data")
-    if not valid_store(cache):
-        return None
-    return Store("data", location=path)
+    return Dossier("data", directory=path)
 
 
 def should_init_hubstore():
@@ -58,7 +54,7 @@ def init_hubstore(path):
         Inside "hubstore-apps", two main folders:
             - apps: to store apps by owner. Meaning that visible folders
             in "apps" are owners, and inside each owner there are a repo
-            - data: this is where the library Store stores data.
+            - data: this is where the library Dossier stores data.
     """
     error_code = 0
     error = None
@@ -248,7 +244,7 @@ def app_metadata(owner, repo):
     pyrustic_data = os.path.join(path, app_pkg,
                                  "pyrustic_data",
                                  "hubstore")
-    jason = Jason("img.json", location=pyrustic_data)
+    jason = Document("img.json", directory=pyrustic_data)
     if jason.data:
         data["small_img"] = jason.data.get("small_img")
         data["large_img"] = jason.data.get("large_img")
@@ -263,7 +259,7 @@ def backup(owner, repo):
     # variables
     is_success = True
     error = None
-    hubstore_apps = get_store().location
+    hubstore_apps = get_store().directory
     owner_folder = os.path.join(hubstore_apps, "apps", owner)
     repo_folder = os.path.join(owner_folder, repo)
     habitat_folder = os.path.join(repo_folder, "habitat")
@@ -318,7 +314,7 @@ def rollback(owner, repo):
     # variables
     is_success = True
     error = None
-    hubstore_apps = get_store().location
+    hubstore_apps = get_store().directory
     owner_folder = os.path.join(hubstore_apps, "apps", owner)
     repo_folder = os.path.join(owner_folder, repo)
     habitat_folder = os.path.join(repo_folder, "habitat")
@@ -364,7 +360,7 @@ def uninstall(owner, repo):
     """
     is_success = None
     error = None
-    hubstore_apps = get_store().location
+    hubstore_apps = get_store().directory
     owner_folder = os.path.join(hubstore_apps, "apps", owner)
     repo_folder = os.path.join(owner_folder, repo)
     habitat_folder = os.path.join(repo_folder, "habitat")
@@ -472,7 +468,7 @@ def get_path(owner, repo, store=None):
         store = get_store()
     if not store:
         return None
-    path = os.path.join(store.location,
+    path = os.path.join(store.directory,
                         "apps", owner, repo,
                         "habitat")
     if os.path.exists(path):
@@ -552,8 +548,8 @@ def _create_hubstore_apps_folder(parent_path):
                 os.mkdir(item)
             except Exception as e:
                 return e, hubstore_apps
-    # initialize Store
-    store = Store("data", location=hubstore_apps)
+    # initialize Dossier
+    store = Dossier("data", directory=hubstore_apps)
     if store.new:
         store.set("apps", dict())
         store.set("favorites", list())
@@ -561,8 +557,8 @@ def _create_hubstore_apps_folder(parent_path):
 
 
 def _register_hubstore_in_pyrustic_data(hubstore_apps):
-    location = os.path.join(constant.PYRUSTIC_DATA, "hubstore")
-    jason = Jason("meta.json", location=location)
+    directory = os.path.join(constant.PYRUSTIC_DATA, "hubstore")
+    jason = Document("meta.json", directory=directory)
     jason.data = {"hubstore-apps": hubstore_apps}
     jason.save()
 
@@ -572,7 +568,7 @@ def _install(owner, repo, tempdata):
     Install the cached wheel file
     Return bool is_success, error
     """
-    hubstore_apps = get_store().location
+    hubstore_apps = get_store().directory
     tempdir = tempdata["tempdir"]
     filename = tempdata["filename"]
     src = filename

@@ -11,7 +11,7 @@ def convert_size(size):
     i = int(math.floor(math.log(size, KILOBYTE)))
     p = math.pow(KILOBYTE, i)
     result = round(size/p, 2)
-    return (result, size_name[i])
+    return result, size_name[i]
 
 
 def badass_iso_8601_date_parser(date):

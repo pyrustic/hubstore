@@ -88,18 +88,18 @@ class About(Viewable):
         command = lambda self=self: self._on_click_website()
         button_website = tk.Button(frame, text="Website", command=command)
         button_website.pack(side=tk.LEFT, padx=(0, 3))
-        get_button_yellow_style().target(button_website)
+        get_button_yellow_style().apply(button_website)
         command = lambda self=self: self._on_click_accept()
         button_accept = tk.Button(frame, text="Accept", command=command)
         button_accept.pack(side=tk.RIGHT)
-        get_button_blue_filled_style().target(button_accept)
-        command = lambda self=self: self.destroy()
+        get_button_blue_filled_style().apply(button_accept)
+        command = lambda self=self: self.body.destroy()
         button_close = tk.Button(frame, text="Close", command=command)
         button_close.pack(side=tk.RIGHT, padx=3)
 
     def _on_click_accept(self):
         self._host.submit_apps_directory(self._strvar_apps_directory.get())
-        self.destroy()
+        self.body.destroy()
 
     def _on_click_website(self):
         self._host.open_website(WEBSITE)

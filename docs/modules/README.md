@@ -1,97 +1,77 @@
-# Modules Documentation - Overview
+# Modules Documentation
 
-**hubstore.\_\_main\_\_**
+[hubstore.core](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.core/README.md#module-overview)
 <br>
 No description
-<br>
-[functions (1)](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.__main__/functions.md)
 
-**hubstore.core.\_\_init\_\_**
+
+[hubstore.host](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.host/README.md#module-overview)
 <br>
 No description
-<br>
-[functions (25)](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.core.__init__/functions.md)
 
-**hubstore.host.\_\_init\_\_**
+
+[hubstore.misc.constant](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.misc.constant/README.md#module-overview)
 <br>
 No description
-<br>
-[classes (2)](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.host.__init__/classes.md)
 
-**hubstore.misc.constant**
+
+[hubstore.misc.funcs](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.misc.funcs/README.md#module-overview)
 <br>
 No description
-<br>
-[constants (3)](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.misc.constant/constants.md)
 
-**hubstore.misc.funcs**
+
+[hubstore.misc.theme](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.misc.theme/README.md#module-overview)
 <br>
 No description
-<br>
-[functions (3)](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.misc.funcs/functions.md)
 
-**hubstore.misc.theme**
+
+[hubstore.view.about](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.about/README.md#module-overview)
 <br>
 No description
-<br>
-[functions (16)](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.misc.theme/functions.md)
 
-**hubstore.view.about**
+
+[hubstore.view.info](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.info/README.md#module-overview)
 <br>
 No description
-<br>
-[constants (2)](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.about/constants.md) &nbsp;.&nbsp; [classes (1)](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.about/classes.md)
 
-**hubstore.view.info**
+
+[hubstore.view.installer](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.installer/README.md#module-overview)
 <br>
 No description
-<br>
-[classes (1)](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.info/classes.md)
 
-**hubstore.view.installer**
+
+[hubstore.view.main](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.main/README.md#module-overview)
 <br>
 No description
-<br>
-[classes (1)](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.installer/classes.md)
 
-**hubstore.view.main**
+
+[hubstore.view.openlist](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.openlist/README.md#module-overview)
 <br>
 No description
-<br>
-[classes (1)](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.main/classes.md)
 
-**hubstore.view.openlist**
+
+[hubstore.view.pane](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.pane/README.md#module-overview)
 <br>
 No description
-<br>
-[classes (1)](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.openlist/classes.md)
 
-**hubstore.view.pane**
+
+[hubstore.view.promoted](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.promoted/README.md#module-overview)
 <br>
 No description
-<br>
-[constants (1)](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.pane/constants.md) &nbsp;.&nbsp; [classes (1)](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.pane/classes.md)
 
-**hubstore.view.promoted**
+
+[hubstore.view.report](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.report/README.md#module-overview)
 <br>
 No description
-<br>
-[classes (1)](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.promoted/classes.md)
 
-**hubstore.view.report**
+
+[hubstore.view.toolbar](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.toolbar/README.md#module-overview)
 <br>
 No description
-<br>
-[classes (1)](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.report/classes.md)
 
-**hubstore.view.toolbar**
+
+[hubstore.view.views](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.views/README.md#module-overview)
 <br>
 No description
-<br>
-[constants (1)](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.toolbar/constants.md) &nbsp;.&nbsp; [classes (3)](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.toolbar/classes.md)
 
-**hubstore.view.views**
-<br>
-No description
-<br>
-[classes (1)](https://github.com/pyrustic/hubstore/blob/master/docs/modules/content/hubstore.view.views/classes.md)
+
